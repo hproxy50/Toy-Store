@@ -1,0 +1,47 @@
+{
+  "toys": [
+    {
+      "id": "1",
+      "name": "Lego Tàu Vũ Trụ",
+      "price": 500000,
+      "category": "Lego"
+    },
+    {
+      "id": "2",
+      "name": "Xe Điều Khiển Từ Xa",
+      "price": 350000,
+      "category": "Xe cộ"
+    },
+    {
+      "id": "3",
+      "name": "Gấu Bông Teddy",
+      "price": 150000,
+      "category": "Thú bông"
+    },
+    {
+      "id": "4",
+      "name": "hehe",
+      "price": 999,
+      "category": "lmao"
+    },
+    {
+      "id": "5",
+      "name": "hahaahhahahahha",
+      "price": 999888,
+      "category": "lmaoAyyyy"
+    },
+    {
+      "name": "#777 MARGHERITA",
+      "price": 666434,
+      "category": "hhhhhhh",
+      "id": "A4lEHl4U2gQ"
+    },
+    {
+      "name": "ttt",
+      "price": 44234,
+      "category": "234423",
+      "id": "SA0C1drELR4"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}

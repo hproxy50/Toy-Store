@@ -1,0 +1,33 @@
+.upper{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #fff;
+    padding: 10px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logo img {
+    height: 50px;
+    margin-right: 300px;
+}
+
+.user, .cart {
+    font-size: 24px;
+    color: #333;
+    cursor: pointer;
+    i{
+        padding: 10px;
+    }
+}
+
+.search-bar {
+    input{
+        display: flex;
+        width: 350px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        outline: none;
+        padding: 5px;
+    }
+}
