@@ -1,0 +1,20 @@
+.upper{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    padding: 10px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logo img {
+    height: 50px;
+    margin-left: 50px;
+}
+
+.user{
+    margin-right: 100px;
+    font-size: 30px;
+    color: #333;
+    cursor: pointer;
+}

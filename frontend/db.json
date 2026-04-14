@@ -8,13 +8,6 @@
       "name": "Quản trị viên"
     },
     {
-      "email": "Hung@gmail.com",
-      "password": "123",
-      "name": "Hưng",
-      "role": "customer",
-      "id": "6PKOtv3EhB0"
-    },
-    {
       "email": "1",
       "password": "1",
       "name": "Lâm",
@@ -24,40 +17,20 @@
   ],
   "toys": [
     {
-      "id": "1",
       "name": "Lego Tàu Vũ Trụ",
       "price": 500000,
-      "category": "Lego"
+      "category": "Lego",
+      "image": "https://m.media-amazon.com/images/I/71Q9XC7yA6L._AC_UF894,1000_QL80_.jpg",
+      "quantity": 999,
+      "id": "1"
     },
     {
-      "id": "2",
-      "name": "Xe Điều Khiển Từ Xa",
-      "price": 350000,
-      "category": "Xe cộ"
-    },
-    {
-      "id": "3",
-      "name": "Gấu Bông Teddy",
-      "price": 150000,
-      "category": "Thú bông"
-    },
-    {
-      "id": "4",
-      "name": "hehe",
-      "price": 999,
-      "category": "lmao"
-    },
-    {
-      "id": "5",
-      "name": "hahaahhahahahha",
-      "price": 999888,
-      "category": "lmaoAyyyy"
-    },
-    {
-      "name": "#777 MARGHERITA",
-      "price": 666434,
-      "category": "hhhhhhh",
-      "id": "A4lEHl4U2gQ"
+      "name": "Ninja go toy",
+      "price": 100000,
+      "category": "Lego",
+      "image": "https://m.media-amazon.com/images/I/51KbHlNJ8lL._SS400_.jpg",
+      "quantity": 100,
+      "id": "rHTYadxNxAM"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
