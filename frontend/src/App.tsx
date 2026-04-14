@@ -1,10 +1,21 @@
 import { Routes, Route } from 'react-router-dom';
-import CustomerPage from './pages/Customer/index'; 
+import ProductManager from './pages/Admin/ProductManager';
+import AdminRoute from './components/AdminRoute';
+import Login from './pages/Auth/Login'
+import Register from './pages/Auth/Register';
+import ProductPage from './pages/Customer/ProductPage'
+
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<CustomerPage />} />
+<Routes>
+      <Route path="/" element={<ProductPage />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+
+      <Route element={<AdminRoute />}>
+        <Route path="/admin" element={<ProductManager />} />
+      </Route>
     </Routes>
   );
 }
