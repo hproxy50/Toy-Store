@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, type ReactNode } from 'react';
+import React, { createContext, useContext, useState, useCallback, ReactNode, useEffect } from 'react';
 
 export interface CartItem {
   id: string;
@@ -6,8 +6,8 @@ export interface CartItem {
   price: number;
   category: string;
   image: string;
-  quantity: number;        // quantity in cart
-  stock: number;           // available stock from backend
+  quantity: number;
+  stock: number;
 }
 
 interface CartContextType {
@@ -22,41 +22,55 @@ interface CartContextType {
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [cart, setCart] = useState<CartItem[]>([]);
+  // ✅ LOAD FROM LOCALSTORAGE
+  const [cart, setCart] = useState<CartItem[]>(() => {
+    const saved = localStorage.getItem("cart");
+    return saved ? JSON.parse(saved) : [];
+  });
 
-  const addToCart = (toy: Omit<CartItem, 'quantity'>) => {
+  // ✅ SAVE TO LOCALSTORAGE
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }, [cart]);
+
+  const addToCart = useCallback((toy: Omit<CartItem, 'quantity'>) => {
     setCart((prev) => {
       const existing = prev.find(item => item.id === toy.id);
       if (existing) {
-        // Increase quantity if stock allows
         if (existing.quantity < toy.stock) {
           return prev.map(item =>
-            item.id === toy.id ? { ...item, quantity: item.quantity + 1 } : item
+            item.id === toy.id 
+              ? { ...item, quantity: item.quantity + 1 } 
+              : item
           );
         }
         return prev;
       }
       return [...prev, { ...toy, quantity: 1 }];
     });
-  };
+  }, []);
 
-  const removeFromCart = (id: string) => {
+  const removeFromCart = useCallback((id: string) => {
     setCart(prev => prev.filter(item => item.id !== id));
-  };
+  }, []);
 
-  const updateCartQuantity = (id: string, newQuantity: number) => {
+  const updateCartQuantity = useCallback((id: string, newQuantity: number) => {
     if (newQuantity < 1) return;
     setCart(prev =>
       prev.map(item =>
-        item.id === id ? { ...item, quantity: Math.min(newQuantity, item.stock) } : item
+        item.id === id 
+          ? { ...item, quantity: Math.min(newQuantity, item.stock) } 
+          : item
       )
     );
-  };
+  }, []);
 
-  const clearCart = () => setCart([]);
+  const clearCart = useCallback(() => setCart([]), []);
 
-  const getTotalAmount = () =>
-    cart.reduce((total, item) => total + item.price * item.quantity, 0);
+  const getTotalAmount = useCallback(() => 
+    cart.reduce((total, item) => total + item.price * item.quantity, 0), 
+    [cart]
+  );
 
   return (
     <CartContext.Provider value={{
@@ -72,7 +86,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   );
 };
 
-export const useCart = () => {
+export const useCart = (): CartContextType => {
   const context = useContext(CartContext);
   if (!context) throw new Error('useCart must be used within CartProvider');
   return context;

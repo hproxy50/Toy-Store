@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import "../../css/Customer/ProductPage.css";
+import { useCart } from "../../context/CartContext";
+import "../../Css/Customer/ProductPage.css";
 
 interface Toy {
   id: string;
@@ -22,6 +23,18 @@ const ProductPage = () => {
   const [toys, setToys] = useState<Toy[]>([]);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const navigate = useNavigate();
+  const { addToCart } = useCart();
+
+  // Extract fetch function so we can call it after updating stock
+  const fetchToys = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/toys");
+      const data = await response.json();
+      setToys(data);
+    } catch (error) {
+      console.error("Lỗi khi tải dữ liệu đồ chơi:", error);
+    }
+  };
 
   useEffect(() => {
     const userStr = localStorage.getItem("currentUser");
@@ -39,18 +52,7 @@ const ProductPage = () => {
     }
 
     setCurrentUser(user);
-
-    const fetchToys = async () => {
-      try {
-        const response = await fetch("http://localhost:3000/toys");
-        const data = await response.json();
-        setToys(data);
-      } catch (error) {
-        console.error("Lỗi khi tải dữ liệu đồ chơi:", error);
-      }
-    };
-
-    fetchToys();
+    fetchToys();           // ← initial load
   }, [navigate]);
 
   const handleLogout = () => {
@@ -59,6 +61,43 @@ const ProductPage = () => {
     navigate("/login");
   };
 
+
+  const handleAddToCart = async (toy: Toy) => {
+  if (toy.quantity <= 0) return;
+
+  try {
+    // ✅ UPDATE BACKEND
+    await fetch(`http://localhost:3000/toys/${toy.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        quantity: toy.quantity - 1
+      }),
+    });
+
+    // ✅ UPDATE CART
+    addToCart({
+      id: toy.id,
+      name: toy.name,
+      price: toy.price,
+      category: toy.category,
+      image: toy.image,
+      stock: toy.quantity - 1,
+    });
+
+    // ✅ UPDATE UI
+    setToys(prev =>
+      prev.map(t =>
+        t.id === toy.id ? { ...t, quantity: t.quantity - 1 } : t
+      )
+    );
+
+    alert(`${toy.name} đã được thêm vào giỏ hàng!`);
+  } catch (error) {
+    console.error("Lỗi thêm vào giỏ:", error);
+  }
+};
+
   return (
     <div className="product-page-container">
       <div className="header">
@@ -66,6 +105,7 @@ const ProductPage = () => {
         {currentUser && (
           <div className="user-info">
             <span>Xin chào, <strong>{currentUser.name}</strong>!</span>
+            <a href="/cart" style={{ fontSize: '28px', marginLeft: '20px', textDecoration: 'none' }}>🛒</a>
             <button className="logout-btn" onClick={handleLogout}>Đăng Xuất</button>
           </div>
         )}
@@ -89,7 +129,14 @@ const ProductPage = () => {
             <p className="product-category">Danh mục: {toy.category}</p>
             <p className="product-price">{toy.price.toLocaleString("vi-VN")} VNĐ</p>
             <p className="product-quantity">Kho: {toy.quantity}</p>
-            <button className="add-to-cart-btn">Thêm vào giỏ</button>
+            
+            <button 
+              className="add-to-cart-btn"
+              onClick={() => handleAddToCart(toy)}
+              disabled={toy.quantity <= 0}
+            >
+              {toy.quantity > 0 ? "Thêm vào giỏ hàng" : "Hết hàng"}
+            </button>
           </div>
         ))}
         {toys.length === 0 && <p className="loading-text">Đang tải dữ liệu sản phẩm...</p>}

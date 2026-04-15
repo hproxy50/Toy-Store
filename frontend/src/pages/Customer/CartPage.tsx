@@ -6,6 +6,7 @@ import '../../Css/Customer/ProductPage.css';   // Reuse existing styles where po
 
 const CartPage: React.FC = () => {
   const { cart, removeFromCart, updateCartQuantity, clearCart, getTotalAmount } = useCart();
+  console.log("Current cart items:", cart);
   const navigate = useNavigate();
 
   const totalAmount = getTotalAmount();
