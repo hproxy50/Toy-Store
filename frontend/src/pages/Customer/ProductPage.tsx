@@ -23,7 +23,6 @@ const ProductPage = () => {
   const [toys, setToys] = useState<Toy[]>([]);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   
-  // State cho Tìm kiếm, Sắp xếp và Lọc danh mục
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOrder, setSortOrder] = useState("");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -99,30 +98,20 @@ const ProductPage = () => {
     }
   };
 
-  // ✅ 1. Lấy danh sách các danh mục duy nhất từ dữ liệu đồ chơi để tạo Checkbox
   const availableCategories = Array.from(new Set(toys.map(toy => toy.category)));
 
-  // ✅ 2. Hàm xử lý khi người dùng tích/bỏ tích danh mục
   const handleCategoryToggle = (category: string) => {
     setSelectedCategories(prev => 
       prev.includes(category) 
-        ? prev.filter(c => c !== category) // Bỏ tích thì xóa khỏi mảng
-        : [...prev, category]              // Tích vào thì thêm vào mảng
+        ? prev.filter(c => c !== category) 
+        : [...prev, category]              
     );
   };
 
-  // ✅ 3. Xử lý logic Lọc (Tên + Danh mục) và Sắp xếp (Giá + Tên)
   const filteredAndSortedToys = toys
-    .filter((toy) => 
-      // Lọc theo tên
-      toy.name.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-    .filter((toy) => 
-      // Lọc theo danh mục (nếu mảng rỗng thì hiển thị tất cả, ngược lại chỉ hiện đồ chơi thuộc danh mục được chọn)
-      selectedCategories.length === 0 ? true : selectedCategories.includes(toy.category)
-    )
+    .filter((toy) => toy.name.toLowerCase().includes(searchTerm.toLowerCase()))
+    .filter((toy) => selectedCategories.length === 0 ? true : selectedCategories.includes(toy.category))
     .sort((a, b) => {
-      // Sắp xếp
       if (sortOrder === "price_asc") return a.price - b.price;
       if (sortOrder === "price_desc") return b.price - a.price;
       if (sortOrder === "name_asc") return a.name.localeCompare(b.name);
@@ -143,7 +132,6 @@ const ProductPage = () => {
         )}
       </div>
 
-      {/* ✅ Giao diện Thanh công cụ Tìm kiếm & Sắp xếp */}
       <div style={{ display: "flex", gap: "15px", marginBottom: "15px" }}>
         <input
           type="text"
@@ -158,14 +146,13 @@ const ProductPage = () => {
           style={{ padding: "10px", borderRadius: "6px", border: "1px solid #ccc", cursor: "pointer" }}
         >
           <option value="">Sắp xếp mặc định</option>
-          <option value="price_asc">Giá: Từ rẻ đến đắt</option>
-          <option value="price_desc">Giá: Từ đắt đến rẻ</option>
+          <option value="price_asc">Giá: thấp đến cao</option>
+          <option value="price_desc">Giá: cao đến thấp</option>
           <option value="name_asc">Tên: Từ A đến Z</option>
           <option value="name_desc">Tên: Từ Z đến A</option>
         </select>
       </div>
 
-      {/* ✅ Giao diện Lọc theo Danh mục (Checkbox) */}
       {availableCategories.length > 0 && (
         <div style={{ marginBottom: "25px", padding: "10px", background: "#f8f9fa", borderRadius: "8px", border: "1px solid #eee" }}>
           <strong style={{ display: "block", marginBottom: "10px" }}>Lọc theo danh mục:</strong>
