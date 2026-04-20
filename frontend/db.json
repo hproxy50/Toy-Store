@@ -1,11 +1,11 @@
 {
   "users": [
     {
-      "id": "admin_1",
       "email": "2",
       "password": "2",
+      "name": "Hưng",
       "role": "admin",
-      "name": "Quản trị viên"
+      "id": "admin_1"
     },
     {
       "email": "1",
@@ -13,6 +13,13 @@
       "name": "Lâm",
       "role": "customer",
       "id": "Nft2IHAHUO0"
+    },
+    {
+      "email": "3",
+      "password": "3",
+      "name": "Khải",
+      "role": "customer",
+      "id": "4Mx1IzxcYN8"
     }
   ],
   "toys": [
