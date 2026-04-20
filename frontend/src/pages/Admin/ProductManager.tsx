@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import logo from "../../assets/az-gundam-new-logo-2023-website-logo.jpg";
+import { useNavigate } from "react-router-dom";
 import "../../Css/AdminCss/ProductPage.css";
 
 interface Toy {
@@ -9,6 +10,13 @@ interface Toy {
   category: string;
   image: string;
   quantity: number;
+}
+
+interface User {
+  id: string;
+  email: string;
+  name: string;
+  role: string;
 }
 
 const API_URL = "http://localhost:3000/toys";
@@ -26,6 +34,10 @@ function ProductManager() {
   const [editId, setEditId] = useState<string | null>(null);
 
   const [showForm, setShowForm] = useState<boolean>(false);
+
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+
+  const navigate = useNavigate();
 
   const fetchToys = async () => {
     try {
@@ -104,14 +116,39 @@ function ProductManager() {
     }
   };
 
+  useEffect(() => {
+    const userStr = localStorage.getItem("currentUser");
+
+    if (!userStr) {
+      navigate("/login");
+      return;
+    }
+
+    const user = JSON.parse(userStr);
+
+    if (user.role !== "customer") {
+      navigate(user.role === "admin" ? "/admin" : "/login");
+      return;
+    }
+
+    setCurrentUser(user);
+    fetchToys();
+  }, [navigate]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("currentUser");
+    setCurrentUser(null);
+    navigate("/login");
+  };
+
   return (
     <div>
       <div className="upper">
         <div className="logo">
           <img src={logo} alt="logo" />
         </div>
-        <div className="user">
-          <i className="fa-solid fa-circle-user"></i>
+        <div className="logout">
+          <button className="logout-btn" onClick={handleLogout}>Đăng Xuất</button>
         </div>
       </div>
       <div className="middle">
