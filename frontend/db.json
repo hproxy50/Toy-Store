@@ -1,11 +1,11 @@
 {
   "users": [
     {
-      "email": "2",
-      "password": "2",
-      "name": "Hưng",
+      "id": "admin_1",
+      "email": "admin",
+      "password": "123",
       "role": "admin",
-      "id": "admin_1"
+      "name": "Quản trị viên"
     },
     {
       "email": "1",
@@ -13,13 +13,6 @@
       "name": "Lâm",
       "role": "customer",
       "id": "Nft2IHAHUO0"
-    },
-    {
-      "email": "3",
-      "password": "3",
-      "name": "Khải",
-      "role": "customer",
-      "id": "4Mx1IzxcYN8"
     }
   ],
   "toys": [
@@ -28,7 +21,7 @@
       "price": 500000,
       "category": "Lego",
       "image": "https://m.media-amazon.com/images/I/71Q9XC7yA6L._AC_UF894,1000_QL80_.jpg",
-      "quantity": 990,
+      "quantity": 993,
       "id": "1"
     },
     {
@@ -36,8 +29,16 @@
       "price": 100000,
       "category": "Lego",
       "image": "https://m.media-amazon.com/images/I/51KbHlNJ8lL._SS400_.jpg",
-      "quantity": 186,
+      "quantity": 89,
       "id": "rHTYadxNxAM"
+    },
+    {
+      "name": "Iphone 16 Pro Max",
+      "price": 123,
+      "category": "Fiigure",
+      "image": "https://www.freepik.com/free-vector/blue-sports-car-isolated-white-vector_3601986.htm#fromView=keyword&page=1&position=0&uuid=3d3c2855-1b41-4ed3-ba59-041d1f472de4&query=Car+jpg",
+      "quantity": 12,
+      "id": "Yegp7MhUQA4"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
