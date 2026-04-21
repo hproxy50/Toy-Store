@@ -48,7 +48,6 @@ const ProductDetail = () => {
   if (!toy || toy.quantity <= 0) return;
 
   try {
-    // ✅ UPDATE BACKEND
     await fetch(`http://localhost:3000/toys/${toy.id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -57,7 +56,6 @@ const ProductDetail = () => {
       }),
     });
 
-    // ✅ UPDATE CART
     addToCart({
       id: toy.id,
       name: toy.name,
@@ -67,7 +65,6 @@ const ProductDetail = () => {
       stock: toy.quantity - 1,
     });
 
-    // ✅ UPDATE UI
     setToy(prev => prev ? { ...prev, quantity: prev.quantity - 1 } : prev);
 
     alert(`${toy.name} đã được thêm vào giỏ hàng!`);

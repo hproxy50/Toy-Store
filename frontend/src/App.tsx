@@ -12,6 +12,7 @@ import ProductManager from "./pages/Admin/ProductManager";
 import UserManager from './pages/Admin/UserManager';
 import AdminRoute from "./components/AdminRoute";
 import AdminLayout from "./components/AdminLayout";
+import OrderManager from './pages/Admin/OrderManager';
 
 function App() {
   return (
@@ -31,7 +32,7 @@ function App() {
             <Route index element={<Navigate to="products" replace />} />
             <Route path="products" element={<ProductManager />} />
             <Route path="users" element={<UserManager />} />
-            {/* <Route path="orders" element={<OrderManager />} /> */}
+            <Route path="orders" element={<OrderManager />} />
           </Route>
         </Route>
       </Routes>

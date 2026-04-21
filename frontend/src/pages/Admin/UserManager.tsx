@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 
-// Khai báo kiểu dữ liệu cho User
 interface User {
   id: string;
   email: string;
@@ -23,7 +22,6 @@ function UserManager() {
   const [editId, setEditId] = useState<string | null>(null);
   const [showForm, setShowForm] = useState<boolean>(false);
 
-  // State cho Search và Sort
   const [searchTerm, setSearchTerm] = useState("");
   const [sortRole, setSortRole] = useState("");
 
@@ -101,7 +99,6 @@ function UserManager() {
     }
   };
 
-  // Logic Tìm kiếm (Tên, Email) và Sắp xếp (Vai trò)
   const filteredAndSortedUsers = users
     .filter((user) => {
       const searchLower = searchTerm.toLowerCase();
@@ -119,14 +116,13 @@ function UserManager() {
         if (a.role === "customer" && b.role !== "customer") return -1;
         if (a.role !== "customer" && b.role === "customer") return 1;
       }
-      return 0; // Sắp xếp mặc định
+      return 0;
     });
 
   return (
     <div style={{ fontFamily: "sans-serif", maxWidth: "1000px" }}>
       <h2>Quản Lý Người Dùng</h2>
 
-      {/* Thanh công cụ Tìm kiếm & Lọc */}
       <div style={{ display: "flex", gap: "15px", marginBottom: "15px" }}>
         <input
           type="text"

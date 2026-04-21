@@ -13,29 +13,23 @@ const AdminLayout = () => {
 
   return (
     <div className="admin-layout">
-      {/* 1. SIDEBAR */}
       <div className="admin-sidebar">
         <div className="admin-sidebar-header">
           Admin Panel
         </div>
         <div className="admin-nav">
-          {/* Dùng NavLink để nó tự động có class "active" khi đang ở đúng trang đó */}
           <NavLink to="/admin/products" className="admin-nav-link">
-            📦 Quản lý Sản phẩm
+            Quản lý Sản phẩm
           </NavLink>
-          {/* Các trang dự kiến thêm sau này */}
           <NavLink to="/admin/orders" className="admin-nav-link">
-            🛒 Quản lý Đơn hàng
+            Quản lý Đơn hàng
           </NavLink>
           <NavLink to="/admin/users" className="admin-nav-link">
-            👥 Quản lý Người dùng
+            Quản lý Người dùng
           </NavLink>
         </div>
       </div>
-
-      {/* 2. CỘT PHẢI (HEADER + CONTENT) */}
       <div className="admin-main">
-        {/* Header (Top bar) */}
         <div className="admin-header">
           <div className="logo">
             <img src={logo} alt="logo" style={{ height: '40px' }} />
@@ -47,8 +41,6 @@ const AdminLayout = () => {
             Đăng Xuất
           </button>
         </div>
-
-        {/* Nội dung thay đổi (Form/Table) sẽ hiển thị ở đây thông qua Outlet */}
         <div className="admin-content">
           <Outlet /> 
         </div>

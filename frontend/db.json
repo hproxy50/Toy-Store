@@ -21,7 +21,7 @@
       "price": 500000,
       "category": "Lego",
       "image": "https://m.media-amazon.com/images/I/71Q9XC7yA6L._AC_UF894,1000_QL80_.jpg",
-      "quantity": 993,
+      "quantity": 990,
       "id": "1"
     },
     {
@@ -29,7 +29,7 @@
       "price": 100000,
       "category": "Lego",
       "image": "https://m.media-amazon.com/images/I/51KbHlNJ8lL._SS400_.jpg",
-      "quantity": 89,
+      "quantity": 86,
       "id": "rHTYadxNxAM"
     },
     {
@@ -37,8 +37,76 @@
       "price": 123,
       "category": "haha",
       "image": "https://tse1.mm.bing.net/th/id/OIP.k7BDGJxMl0zLVvv3k7gPlwHaEW?rs=1&pid=ImgDetMain&o=7&rm=3",
-      "quantity": 12,
+      "quantity": 11,
       "id": "Yegp7MhUQA4"
+    }
+  ],
+  "orders": [
+    {
+      "userId": "Nft2IHAHUO0",
+      "customerInfo": {
+        "fullName": "haha",
+        "address": "1",
+        "phone": "12345",
+        "paymentMethod": "bank"
+      },
+      "items": [
+        {
+          "id": "rHTYadxNxAM",
+          "name": "Ninja go toy",
+          "price": 100000,
+          "category": "Lego",
+          "image": "https://m.media-amazon.com/images/I/51KbHlNJ8lL._SS400_.jpg",
+          "stock": 88,
+          "quantity": 1
+        },
+        {
+          "id": "1",
+          "name": "Lego Tàu Vũ Trụ",
+          "price": 500000,
+          "category": "Lego",
+          "image": "https://m.media-amazon.com/images/I/71Q9XC7yA6L._AC_UF894,1000_QL80_.jpg",
+          "stock": 992,
+          "quantity": 1
+        }
+      ],
+      "totalAmount": 600000,
+      "status": "Đã xử lý",
+      "createdAt": "2026-04-21T04:11:10.178Z",
+      "id": "hra0QIjYfis"
+    },
+    {
+      "userId": "Nft2IHAHUO0",
+      "customerInfo": {
+        "fullName": "Lâm",
+        "address": "Hà nội",
+        "phone": "123",
+        "paymentMethod": "cod"
+      },
+      "items": [
+        {
+          "id": "Yegp7MhUQA4",
+          "name": "Iphone 16 Pro Max",
+          "price": 123,
+          "category": "haha",
+          "image": "https://tse1.mm.bing.net/th/id/OIP.k7BDGJxMl0zLVvv3k7gPlwHaEW?rs=1&pid=ImgDetMain&o=7&rm=3",
+          "stock": 11,
+          "quantity": 10
+        },
+        {
+          "id": "rHTYadxNxAM",
+          "name": "Ninja go toy",
+          "price": 100000,
+          "category": "Lego",
+          "image": "https://m.media-amazon.com/images/I/51KbHlNJ8lL._SS400_.jpg",
+          "stock": 87,
+          "quantity": 10
+        }
+      ],
+      "totalAmount": 1001230,
+      "status": "Đang xử lý",
+      "createdAt": "2026-04-21T05:02:00.638Z",
+      "id": "-MDd3-jJnWU"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

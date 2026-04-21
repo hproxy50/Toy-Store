@@ -24,7 +24,6 @@ function ProductManager() {
   const [editId, setEditId] = useState<string | null>(null);
   const [showForm, setShowForm] = useState<boolean>(false);
   
-  // State cho Tìm kiếm và Lọc
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOrder, setSortOrder] = useState("");
 
@@ -97,12 +96,9 @@ function ProductManager() {
     }
   };
 
-  // --- LOGIC TÌM KIẾM VÀ SẮP XẾP ---
   const filteredAndSortedToys = toys
     .filter((toy) => {
-      // Chuyển từ khóa tìm kiếm về chữ thường để không phân biệt hoa/thường
       const lowerSearchTerm = searchTerm.toLowerCase();
-      // Trả về true nếu tên HOẶC danh mục chứa từ khóa tìm kiếm
       return (
         toy.name.toLowerCase().includes(lowerSearchTerm) ||
         toy.category.toLowerCase().includes(lowerSearchTerm)
@@ -113,14 +109,13 @@ function ProductManager() {
       if (sortOrder === "price_desc") return b.price - a.price;
       if (sortOrder === "name_asc") return a.name.localeCompare(b.name);
       if (sortOrder === "name_desc") return b.name.localeCompare(a.name);
-      return 0; // Trả về 0 nghĩa là giữ nguyên thứ tự mặc định nếu không chọn gì
+      return 0;
     });
 
   return (
     <div style={{ fontFamily: "sans-serif", maxWidth: "1000px" }}>
       <h2>Quản Lý Sản Phẩm</h2>
 
-      {/* THANH TÌM KIẾM & LỌC */}
       <div style={{ display: "flex", gap: "15px", marginBottom: "15px" }}>
         <input
           type="text"
@@ -180,7 +175,6 @@ function ProductManager() {
         {showForm ? "- Đóng Form" : "+ Thêm Mới"}
       </button>
 
-      {/* FORM THÊM/SỬA */}
       {showForm && (
         <form
           onSubmit={handleSubmit}
@@ -294,7 +288,6 @@ function ProductManager() {
         </form>
       )}
 
-      {/* BẢNG HIỂN THỊ SẢN PHẨM */}
       <table
         style={{
           width: "100%",
@@ -314,7 +307,6 @@ function ProductManager() {
           </tr>
         </thead>
         <tbody>
-          {/* LƯU Ý: Ở đây đã đổi từ 'toys' sang 'filteredAndSortedToys' */}
           {filteredAndSortedToys.length > 0 ? (
             filteredAndSortedToys.map((toy) => (
               <tr key={toy.id}>
@@ -361,7 +353,6 @@ function ProductManager() {
               </tr>
             ))
           ) : (
-            /* Hiển thị thông báo nếu tìm kiếm không ra kết quả nào */
             <tr>
               <td colSpan={6} style={{ border: "1px solid #ddd", padding: "20px", textAlign: "center", color: "gray" }}>
                 Không tìm thấy sản phẩm nào khớp với tìm kiếm của bạn.
