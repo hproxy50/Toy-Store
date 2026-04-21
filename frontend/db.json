@@ -2,8 +2,8 @@
   "users": [
     {
       "id": "admin_1",
-      "email": "admin",
-      "password": "123",
+      "email": "2",
+      "password": "2",
       "role": "admin",
       "name": "Quản trị viên"
     },
@@ -35,8 +35,8 @@
     {
       "name": "Iphone 16 Pro Max",
       "price": 123,
-      "category": "Fiigure",
-      "image": "https://www.freepik.com/free-vector/blue-sports-car-isolated-white-vector_3601986.htm#fromView=keyword&page=1&position=0&uuid=3d3c2855-1b41-4ed3-ba59-041d1f472de4&query=Car+jpg",
+      "category": "haha",
+      "image": "https://tse1.mm.bing.net/th/id/OIP.k7BDGJxMl0zLVvv3k7gPlwHaEW?rs=1&pid=ImgDetMain&o=7&rm=3",
       "quantity": 12,
       "id": "Yegp7MhUQA4"
     }
