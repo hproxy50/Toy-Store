@@ -70,6 +70,15 @@ const CheckoutPage: React.FC = () => {
     }
   };
 
+
+  const MY_BANK_ID = "BIDV"; 
+  const MY_ACCOUNT_NO = "4661020820"; 
+  const MY_ACCOUNT_NAME = "NGUYEN HUY HOANG LAM"; 
+  
+  const transferDescription = `Thanh toan don hang ${formData.phone || "moi"}`; 
+
+  const qrUrl = `https://img.vietqr.io/image/${MY_BANK_ID}-${MY_ACCOUNT_NO}-compact2.png?amount=${totalAmount}&addInfo=${encodeURIComponent(transferDescription)}&accountName=${encodeURIComponent(MY_ACCOUNT_NAME)}`;
+
   return (
     <div style={{ maxWidth: "700px", margin: "40px auto", padding: "20px" }}>
       <div style={{ textAlign: "center", marginBottom: "30px" }}>
@@ -126,6 +135,31 @@ const CheckoutPage: React.FC = () => {
             <option value="bank">Chuyển khoản ngân hàng</option>
           </select>
         </div>
+
+        {formData.paymentMethod === "bank" && (
+          <div style={{ 
+            textAlign: "center", 
+            marginBottom: "30px", 
+            padding: "20px", 
+            border: "2px dashed #28a745", 
+            borderRadius: "8px",
+            backgroundColor: "#f9fff9"
+          }}>
+            <h3 style={{ color: "#28a745", marginTop: 0 }}>Quét mã QR để thanh toán</h3>
+            <p>Sử dụng App Ngân hàng hoặc Momo để quét mã.</p>
+            
+            <img 
+              src={qrUrl} 
+              alt="Mã QR Thanh Toán" 
+              style={{ maxWidth: "300px", width: "100%", borderRadius: "8px", boxShadow: "0 4px 8px rgba(0,0,0,0.1)" }} 
+            />
+            
+            <div style={{ marginTop: "15px", fontSize: "14px", color: "#555" }}>
+              <p><strong>Nội dung CK:</strong> {transferDescription}</p>
+              <p>Vui lòng chuyển khoản trước, sau đó ấn <b>Xác nhận đặt hàng</b> bên dưới.</p>
+            </div>
+          </div>
+        )}
 
         <div
           style={{

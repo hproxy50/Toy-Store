@@ -21,7 +21,7 @@
       "price": 500000,
       "category": "Lego",
       "image": "https://m.media-amazon.com/images/I/71Q9XC7yA6L._AC_UF894,1000_QL80_.jpg",
-      "quantity": 990,
+      "quantity": 989,
       "id": "1"
     },
     {
@@ -29,7 +29,7 @@
       "price": 100000,
       "category": "Lego",
       "image": "https://m.media-amazon.com/images/I/51KbHlNJ8lL._SS400_.jpg",
-      "quantity": 86,
+      "quantity": 83,
       "id": "rHTYadxNxAM"
     },
     {
@@ -37,7 +37,7 @@
       "price": 123,
       "category": "haha",
       "image": "https://tse1.mm.bing.net/th/id/OIP.k7BDGJxMl0zLVvv3k7gPlwHaEW?rs=1&pid=ImgDetMain&o=7&rm=3",
-      "quantity": 11,
+      "quantity": 10,
       "id": "Yegp7MhUQA4"
     }
   ],
@@ -107,6 +107,105 @@
       "status": "Đang xử lý",
       "createdAt": "2026-04-21T05:02:00.638Z",
       "id": "-MDd3-jJnWU"
+    },
+    {
+      "userId": "Nft2IHAHUO0",
+      "customerInfo": {
+        "fullName": "Nguyen Phuc Hung",
+        "address": "99",
+        "phone": "0987654321",
+        "paymentMethod": "bank"
+      },
+      "items": [
+        {
+          "id": "rHTYadxNxAM",
+          "name": "Ninja go toy",
+          "price": 100000,
+          "category": "Lego",
+          "image": "https://m.media-amazon.com/images/I/51KbHlNJ8lL._SS400_.jpg",
+          "stock": 86,
+          "quantity": 2
+        },
+        {
+          "id": "1",
+          "name": "Lego Tàu Vũ Trụ",
+          "price": 500000,
+          "category": "Lego",
+          "image": "https://m.media-amazon.com/images/I/71Q9XC7yA6L._AC_UF894,1000_QL80_.jpg",
+          "stock": 991,
+          "quantity": 2
+        }
+      ],
+      "totalAmount": 1200000,
+      "status": "Đang xử lý",
+      "createdAt": "2026-04-21T05:28:27.855Z",
+      "id": "3hTGq3app5o"
+    },
+    {
+      "userId": "Nft2IHAHUO0",
+      "customerInfo": {
+        "fullName": "Nguyen Phuc Hung",
+        "address": "99",
+        "phone": "0987654321",
+        "paymentMethod": "cod"
+      },
+      "items": [
+        {
+          "id": "Yegp7MhUQA4",
+          "name": "Iphone 16 Pro Max",
+          "price": 123,
+          "category": "haha",
+          "image": "https://tse1.mm.bing.net/th/id/OIP.k7BDGJxMl0zLVvv3k7gPlwHaEW?rs=1&pid=ImgDetMain&o=7&rm=3",
+          "stock": 10,
+          "quantity": 1
+        },
+        {
+          "id": "rHTYadxNxAM",
+          "name": "Ninja go toy",
+          "price": 100000,
+          "category": "Lego",
+          "image": "https://m.media-amazon.com/images/I/51KbHlNJ8lL._SS400_.jpg",
+          "stock": 84,
+          "quantity": 1
+        }
+      ],
+      "totalAmount": 100123,
+      "status": "Đang xử lý",
+      "createdAt": "2026-04-21T05:29:10.132Z",
+      "id": "yJfiwRstPGg"
+    },
+    {
+      "userId": "Nft2IHAHUO0",
+      "customerInfo": {
+        "fullName": "Nguyen Phuc Hung",
+        "address": "99",
+        "phone": "0987654321",
+        "paymentMethod": "bank"
+      },
+      "items": [
+        {
+          "id": "rHTYadxNxAM",
+          "name": "Ninja go toy",
+          "price": 100000,
+          "category": "Lego",
+          "image": "https://m.media-amazon.com/images/I/51KbHlNJ8lL._SS400_.jpg",
+          "stock": 83,
+          "quantity": 1
+        },
+        {
+          "id": "1",
+          "name": "Lego Tàu Vũ Trụ",
+          "price": 500000,
+          "category": "Lego",
+          "image": "https://m.media-amazon.com/images/I/71Q9XC7yA6L._AC_UF894,1000_QL80_.jpg",
+          "stock": 989,
+          "quantity": 1
+        }
+      ],
+      "totalAmount": 600000,
+      "status": "Đang xử lý",
+      "createdAt": "2026-04-21T05:31:36.589Z",
+      "id": "bGb03zfC2pQ"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
