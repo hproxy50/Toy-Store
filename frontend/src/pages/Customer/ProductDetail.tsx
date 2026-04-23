@@ -37,7 +37,7 @@ const ProductDetail = () => {
         const data = await response.json();
         setToy(data);
       } catch (error) {
-        console.error("Lỗi khi tải dữ liệu đồ chơi:", error);
+        console.error(error);
       }
     };
 
@@ -45,33 +45,33 @@ const ProductDetail = () => {
   }, [id, navigate]);
 
   const handleAddToCart = async () => {
-  if (!toy || toy.quantity <= 0) return;
+    if (!toy || toy.quantity <= 0) return;
 
-  try {
-    await fetch(`http://localhost:3000/toys/${toy.id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        quantity: toy.quantity - 1
-      }),
-    });
+    try {
+      await fetch(`http://localhost:3000/toys/${toy.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          quantity: toy.quantity - 1
+        }),
+      });
 
-    addToCart({
-      id: toy.id,
-      name: toy.name,
-      price: toy.price,
-      category: toy.category,
-      image: toy.image,
-      stock: toy.quantity - 1,
-    });
+      addToCart({
+        id: toy.id,
+        name: toy.name,
+        price: toy.price,
+        category: toy.category,
+        image: toy.image,
+        stock: toy.quantity - 1,
+      });
 
-    setToy(prev => prev ? { ...prev, quantity: prev.quantity - 1 } : prev);
+      setToy(prev => prev ? { ...prev, quantity: prev.quantity - 1 } : prev);
 
-    alert(`${toy.name} đã được thêm vào giỏ hàng!`);
-  } catch (error) {
-    console.error("Lỗi thêm vào giỏ:", error);
-  }
-};
+      alert(`${toy.name} đã được thêm vào giỏ hàng!`);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   if (!toy) {
     return <div className="loading-text">Đang tải dữ liệu sản phẩm...</div>;
@@ -81,12 +81,15 @@ const ProductDetail = () => {
     <div className="product-detail-container">
       <button className="back-btn" onClick={() => navigate(-1)}>← Quay lại</button>
       
-      <div className="product-detail-content">
-        <img 
-          src={toy.image} 
-          alt={toy.name} 
-          className="product-detail-image" 
-        />
+      <div className={`product-detail-content ${toy.quantity <= 0 ? 'out-of-stock-detail' : ''}`}>
+        <div className="product-detail-image-wrapper">
+          <img 
+            src={toy.image} 
+            alt={toy.name} 
+            className="product-detail-image" 
+          />
+          {toy.quantity <= 0 && <div className="out-of-stock-overlay-detail">Hết hàng</div>}
+        </div>
         
         <div className="product-detail-info">
           <h2 className="product-detail-name">{toy.name}</h2>
