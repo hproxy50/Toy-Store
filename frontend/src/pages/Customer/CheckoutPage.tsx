@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useCart } from "../../context/CartContext";
 import { useNavigate } from "react-router-dom";
 import logo from "../../assets/az-gundam-new-logo-2023-website-logo.jpg";
@@ -6,6 +6,7 @@ import logo from "../../assets/az-gundam-new-logo-2023-website-logo.jpg";
 const CheckoutPage: React.FC = () => {
   const { cart, getTotalAmount, clearCart } = useCart();
   const navigate = useNavigate();
+  
   const [formData, setFormData] = useState({
     fullName: "",
     address: "",
@@ -14,6 +15,22 @@ const CheckoutPage: React.FC = () => {
   });
 
   const totalAmount = getTotalAmount();
+
+  // 1. TỰ ĐỘNG ĐIỀN THÔNG TIN TỪ LOCAL STORAGE KHI LOAD TRANG
+  useEffect(() => {
+    const currentUserStr = localStorage.getItem("currentUser");
+    if (currentUserStr) {
+      const currentUser = JSON.parse(currentUserStr);
+      
+      // Cập nhật lại form bằng thông tin của user. Nếu user không có thông tin (do tạo từ trước lúc cập nhật code), thì để chuỗi rỗng ""
+      setFormData(prevData => ({
+        ...prevData,
+        fullName: currentUser.name || "",
+        address: currentUser.address || "",
+        phone: currentUser.phone || "",
+      }));
+    }
+  }, []);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -38,12 +55,12 @@ const CheckoutPage: React.FC = () => {
     const currentUser = currentUserStr ? JSON.parse(currentUserStr) : null;
 
     const newOrder = {
-      userId: currentUser ? currentUser.id : "guest", 
-      customerInfo: formData, 
-      items: cart, 
-      totalAmount: totalAmount, 
-      status: "Đang xử lý", 
-      createdAt: new Date().toISOString(), 
+      userId: currentUser ? currentUser.id : "guest",
+      customerInfo: formData,
+      items: cart,
+      totalAmount: totalAmount,
+      status: "Đang xử lý",
+      createdAt: new Date().toISOString(),
     };
 
     try {
@@ -70,12 +87,11 @@ const CheckoutPage: React.FC = () => {
     }
   };
 
+  const MY_BANK_ID = "BIDV";
+  const MY_ACCOUNT_NO = "4661020820";
+  const MY_ACCOUNT_NAME = "NGUYEN HUY HOANG LAM";
 
-  const MY_BANK_ID = "BIDV"; 
-  const MY_ACCOUNT_NO = "4661020820"; 
-  const MY_ACCOUNT_NAME = "NGUYEN HUY HOANG LAM"; 
-  
-  const transferDescription = `Thanh toan don hang ${formData.phone || "moi"}`; 
+  const transferDescription = `Thanh toan don hang ${formData.phone || "moi"}`;
 
   const qrUrl = `https://img.vietqr.io/image/${MY_BANK_ID}-${MY_ACCOUNT_NO}-compact2.png?amount=${totalAmount}&addInfo=${encodeURIComponent(transferDescription)}&accountName=${encodeURIComponent(MY_ACCOUNT_NAME)}`;
 
@@ -137,26 +153,40 @@ const CheckoutPage: React.FC = () => {
         </div>
 
         {formData.paymentMethod === "bank" && (
-          <div style={{ 
-            textAlign: "center", 
-            marginBottom: "30px", 
-            padding: "20px", 
-            border: "2px dashed #28a745", 
-            borderRadius: "8px",
-            backgroundColor: "#f9fff9"
-          }}>
-            <h3 style={{ color: "#28a745", marginTop: 0 }}>Quét mã QR để thanh toán</h3>
+          <div
+            style={{
+              textAlign: "center",
+              marginBottom: "30px",
+              padding: "20px",
+              border: "2px dashed #28a745",
+              borderRadius: "8px",
+              backgroundColor: "#f9fff9",
+            }}
+          >
+            <h3 style={{ color: "#28a745", marginTop: 0 }}>
+              Quét mã QR để thanh toán
+            </h3>
             <p>Sử dụng App Ngân hàng hoặc Momo để quét mã.</p>
-            
-            <img 
-              src={qrUrl} 
-              alt="Mã QR Thanh Toán" 
-              style={{ maxWidth: "300px", width: "100%", borderRadius: "8px", boxShadow: "0 4px 8px rgba(0,0,0,0.1)" }} 
+
+            <img
+              src={qrUrl}
+              alt="Mã QR Thanh Toán"
+              style={{
+                maxWidth: "300px",
+                width: "100%",
+                borderRadius: "8px",
+                boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+              }}
             />
-            
+
             <div style={{ marginTop: "15px", fontSize: "14px", color: "#555" }}>
-              <p><strong>Nội dung CK:</strong> {transferDescription}</p>
-              <p>Vui lòng chuyển khoản trước, sau đó ấn <b>Xác nhận đặt hàng</b> bên dưới.</p>
+              <p>
+                <strong>Nội dung CK:</strong> {transferDescription}
+              </p>
+              <p>
+                Vui lòng chuyển khoản trước, sau đó ấn <b>Xác nhận đặt hàng</b>{" "}
+                bên dưới.
+              </p>
             </div>
           </div>
         )}

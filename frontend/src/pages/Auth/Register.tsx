@@ -6,6 +6,8 @@ const Register = () => {
     email: "",
     password: "",
     name: "",
+    address: "", // Thêm trường địa chỉ
+    phone: "",   // Thêm trường số điện thoại
   });
   const navigate = useNavigate();
 
@@ -47,27 +49,42 @@ const Register = () => {
       <form onSubmit={handleRegister}>
         <input
           type="text"
-          placeholder="Tên của bạn"
+          placeholder="Họ và tên của bạn"
           required
           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
           style={{ width: "100%", marginBottom: "10px", padding: "8px" }}
         />
         <input
           type="text"
-          placeholder="Ten tai khoan"
+          placeholder="Tên tài khoản(email)"
           required
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
           style={{ width: "100%", marginBottom: "10px", padding: "8px" }}
         />
         <input
-          type="password"
+          type="Password"
           placeholder="Mật khẩu"
           required
-          onChange={(e) =>
-            setFormData({ ...formData, password: e.target.value })
-          }
+          onChange={(e) => setFormData({ ...formData, password: e.target.value })}
           style={{ width: "100%", marginBottom: "10px", padding: "8px" }}
         />
+        
+        <input
+          type="tel"
+          placeholder="Số điện thoại"
+          required
+          onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+          style={{ width: "100%", marginBottom: "10px", padding: "8px" }}
+        />
+
+        <input
+          type="text"
+          placeholder="Địa chỉ giao hàng mặc định"
+          required
+          onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+          style={{ width: "100%", marginBottom: "10px", padding: "8px" }}
+        />
+
         <button
           type="submit"
           style={{
@@ -75,6 +92,8 @@ const Register = () => {
             padding: "10px",
             background: "blue",
             color: "white",
+            border: "none",
+            cursor: "pointer"
           }}
         >
           Đăng Ký

@@ -2,17 +2,19 @@
   "users": [
     {
       "id": "admin_1",
-      "email": "2",
-      "password": "2",
+      "email": "admin@gmail.com",
+      "password": "12345",
       "role": "admin",
       "name": "Quản trị viên"
     },
     {
       "email": "1",
       "password": "1",
-      "name": "Lâm",
+      "name": "Nguyễn Phúc Hưng",
+      "address": "Số 5, cầu giấy, hà nội",
+      "phone": "0987654321",
       "role": "customer",
-      "id": "Nft2IHAHUO0"
+      "id": "Pwq5drRr-1Q"
     }
   ],
   "toys": [
@@ -21,7 +23,7 @@
       "price": 500000,
       "category": "Lego",
       "image": "https://m.media-amazon.com/images/I/71Q9XC7yA6L._AC_UF894,1000_QL80_.jpg",
-      "quantity": 989,
+      "quantity": 986,
       "id": "1"
     },
     {
@@ -29,183 +31,188 @@
       "price": 100000,
       "category": "Lego",
       "image": "https://m.media-amazon.com/images/I/51KbHlNJ8lL._SS400_.jpg",
-      "quantity": 83,
+      "quantity": 76,
       "id": "rHTYadxNxAM"
     },
     {
-      "name": "Iphone 16 Pro Max",
-      "price": 123,
-      "category": "haha",
-      "image": "https://tse1.mm.bing.net/th/id/OIP.k7BDGJxMl0zLVvv3k7gPlwHaEW?rs=1&pid=ImgDetMain&o=7&rm=3",
-      "quantity": 10,
+      "name": "HG XI Gundam – Gundam Hathaway The Sorcery of Nymph Circe",
+      "price": 1610000,
+      "category": "Figure",
+      "image": "https://azgundam.com/wp-content/uploads/2026/02/HG-XI-GUNDAM-HATHAWAY-NYMPH-CIRCE-AZGUNDAM.jpg",
+      "quantity": 96,
       "id": "Yegp7MhUQA4"
+    },
+    {
+      "name": "MG Neo Zeon MSN-04 Sazabi",
+      "price": 2150000,
+      "category": "Figure",
+      "image": "https://azgundam.com/wp-content/uploads/2018/11/MG-SAZABI.jpg",
+      "quantity": 17,
+      "id": "ryrLUtgpZhs"
     }
   ],
   "orders": [
     {
-      "userId": "Nft2IHAHUO0",
+      "userId": "Pwq5drRr-1Q",
       "customerInfo": {
-        "fullName": "haha",
-        "address": "1",
-        "phone": "12345",
+        "fullName": "Nguyễn Phúc Hưng",
+        "address": "Số 5, cầu giấy, hà nội",
+        "phone": "0987654321",
         "paymentMethod": "bank"
       },
       "items": [
         {
-          "id": "rHTYadxNxAM",
-          "name": "Ninja go toy",
-          "price": 100000,
-          "category": "Lego",
-          "image": "https://m.media-amazon.com/images/I/51KbHlNJ8lL._SS400_.jpg",
-          "stock": 88,
+          "id": "Yegp7MhUQA4",
+          "name": "HG XI Gundam – Gundam Hathaway The Sorcery of Nymph Circe",
+          "price": 1610000,
+          "category": "Figure",
+          "image": "https://azgundam.com/wp-content/uploads/2026/02/HG-XI-GUNDAM-HATHAWAY-NYMPH-CIRCE-AZGUNDAM.jpg",
+          "stock": 99,
+          "quantity": 1
+        }
+      ],
+      "totalAmount": 1610000,
+      "status": "Đã giao",
+      "createdAt": "2026-04-23T04:27:49.732Z",
+      "id": "5BpXXM3YYQQ"
+    },
+    {
+      "userId": "Pwq5drRr-1Q",
+      "customerInfo": {
+        "fullName": "Nguyễn Phúc Hưng",
+        "address": "Số 5, cầu giấy, hà nội",
+        "phone": "0987654321",
+        "paymentMethod": "cod"
+      },
+      "items": [
+        {
+          "id": "Yegp7MhUQA4",
+          "name": "HG XI Gundam – Gundam Hathaway The Sorcery of Nymph Circe",
+          "price": 1610000,
+          "category": "Figure",
+          "image": "https://azgundam.com/wp-content/uploads/2026/02/HG-XI-GUNDAM-HATHAWAY-NYMPH-CIRCE-AZGUNDAM.jpg",
+          "stock": 98,
           "quantity": 1
         },
+        {
+          "id": "ryrLUtgpZhs",
+          "name": "MG Neo Zeon MSN-04 Sazabi",
+          "price": 2150000,
+          "category": "Figure",
+          "image": "https://azgundam.com/wp-content/uploads/2018/11/MG-SAZABI.jpg",
+          "stock": 18,
+          "quantity": 2
+        }
+      ],
+      "totalAmount": 5910000,
+      "status": "Đã xử lý",
+      "createdAt": "2026-04-23T04:38:50.300Z",
+      "id": "tyfOLB57mtA"
+    },
+    {
+      "userId": "Pwq5drRr-1Q",
+      "customerInfo": {
+        "fullName": "Nguyễn Phúc Hưng",
+        "address": "Số 5, cầu giấy, hà nội",
+        "phone": "0987654321",
+        "paymentMethod": "cod"
+      },
+      "items": [
         {
           "id": "1",
           "name": "Lego Tàu Vũ Trụ",
           "price": 500000,
           "category": "Lego",
           "image": "https://m.media-amazon.com/images/I/71Q9XC7yA6L._AC_UF894,1000_QL80_.jpg",
-          "stock": 992,
+          "stock": 987,
+          "quantity": 1
+        },
+        {
+          "id": "rHTYadxNxAM",
+          "name": "Ninja go toy",
+          "price": 100000,
+          "category": "Lego",
+          "image": "https://m.media-amazon.com/images/I/51KbHlNJ8lL._SS400_.jpg",
+          "stock": 78,
           "quantity": 1
         }
       ],
       "totalAmount": 600000,
       "status": "Đã xử lý",
-      "createdAt": "2026-04-21T04:11:10.178Z",
-      "id": "hra0QIjYfis"
+      "createdAt": "2026-04-23T04:38:58.689Z",
+      "id": "qqZeiIzLueQ"
     },
     {
-      "userId": "Nft2IHAHUO0",
+      "userId": "Pwq5drRr-1Q",
       "customerInfo": {
-        "fullName": "Lâm",
-        "address": "Hà nội",
-        "phone": "123",
+        "fullName": "Nguyễn Phúc Hưng",
+        "address": "Số 5, cầu giấy, hà nội",
+        "phone": "0987654321",
         "paymentMethod": "cod"
       },
       "items": [
         {
-          "id": "Yegp7MhUQA4",
-          "name": "Iphone 16 Pro Max",
-          "price": 123,
-          "category": "haha",
-          "image": "https://tse1.mm.bing.net/th/id/OIP.k7BDGJxMl0zLVvv3k7gPlwHaEW?rs=1&pid=ImgDetMain&o=7&rm=3",
-          "stock": 11,
-          "quantity": 10
-        },
-        {
           "id": "rHTYadxNxAM",
           "name": "Ninja go toy",
           "price": 100000,
           "category": "Lego",
           "image": "https://m.media-amazon.com/images/I/51KbHlNJ8lL._SS400_.jpg",
-          "stock": 87,
-          "quantity": 10
-        }
-      ],
-      "totalAmount": 1001230,
-      "status": "Đang xử lý",
-      "createdAt": "2026-04-21T05:02:00.638Z",
-      "id": "-MDd3-jJnWU"
-    },
-    {
-      "userId": "Nft2IHAHUO0",
-      "customerInfo": {
-        "fullName": "Nguyen Phuc Hung",
-        "address": "99",
-        "phone": "0987654321",
-        "paymentMethod": "bank"
-      },
-      "items": [
-        {
-          "id": "rHTYadxNxAM",
-          "name": "Ninja go toy",
-          "price": 100000,
-          "category": "Lego",
-          "image": "https://m.media-amazon.com/images/I/51KbHlNJ8lL._SS400_.jpg",
-          "stock": 86,
-          "quantity": 2
-        },
-        {
-          "id": "1",
-          "name": "Lego Tàu Vũ Trụ",
-          "price": 500000,
-          "category": "Lego",
-          "image": "https://m.media-amazon.com/images/I/71Q9XC7yA6L._AC_UF894,1000_QL80_.jpg",
-          "stock": 991,
+          "stock": 77,
           "quantity": 2
         }
       ],
-      "totalAmount": 1200000,
-      "status": "Đang xử lý",
-      "createdAt": "2026-04-21T05:28:27.855Z",
-      "id": "3hTGq3app5o"
+      "totalAmount": 200000,
+      "status": "Đã giao",
+      "createdAt": "2026-04-23T04:39:43.902Z",
+      "id": "Xl1N9t1uB8s"
     },
     {
-      "userId": "Nft2IHAHUO0",
+      "userId": "Pwq5drRr-1Q",
       "customerInfo": {
-        "fullName": "Nguyen Phuc Hung",
-        "address": "99",
+        "fullName": "Nguyễn Phúc Hưng",
+        "address": "Số 5, cầu giấy, hà nội",
         "phone": "0987654321",
         "paymentMethod": "cod"
       },
       "items": [
         {
           "id": "Yegp7MhUQA4",
-          "name": "Iphone 16 Pro Max",
-          "price": 123,
-          "category": "haha",
-          "image": "https://tse1.mm.bing.net/th/id/OIP.k7BDGJxMl0zLVvv3k7gPlwHaEW?rs=1&pid=ImgDetMain&o=7&rm=3",
-          "stock": 10,
-          "quantity": 1
-        },
-        {
-          "id": "rHTYadxNxAM",
-          "name": "Ninja go toy",
-          "price": 100000,
-          "category": "Lego",
-          "image": "https://m.media-amazon.com/images/I/51KbHlNJ8lL._SS400_.jpg",
-          "stock": 84,
-          "quantity": 1
+          "name": "HG XI Gundam – Gundam Hathaway The Sorcery of Nymph Circe",
+          "price": 1610000,
+          "category": "Figure",
+          "image": "https://azgundam.com/wp-content/uploads/2026/02/HG-XI-GUNDAM-HATHAWAY-NYMPH-CIRCE-AZGUNDAM.jpg",
+          "stock": 97,
+          "quantity": 2
         }
       ],
-      "totalAmount": 100123,
+      "totalAmount": 3220000,
       "status": "Đang xử lý",
-      "createdAt": "2026-04-21T05:29:10.132Z",
-      "id": "yJfiwRstPGg"
+      "createdAt": "2026-04-23T04:40:04.983Z",
+      "id": "vgT9hsZnbCw"
     },
     {
-      "userId": "Nft2IHAHUO0",
+      "userId": "Pwq5drRr-1Q",
       "customerInfo": {
-        "fullName": "Nguyen Phuc Hung",
-        "address": "99",
+        "fullName": "Nguyễn Phúc Hưng",
+        "address": "Số 5, cầu giấy, hà nội",
         "phone": "0987654321",
-        "paymentMethod": "bank"
+        "paymentMethod": "cod"
       },
       "items": [
-        {
-          "id": "rHTYadxNxAM",
-          "name": "Ninja go toy",
-          "price": 100000,
-          "category": "Lego",
-          "image": "https://m.media-amazon.com/images/I/51KbHlNJ8lL._SS400_.jpg",
-          "stock": 83,
-          "quantity": 1
-        },
         {
           "id": "1",
           "name": "Lego Tàu Vũ Trụ",
           "price": 500000,
           "category": "Lego",
           "image": "https://m.media-amazon.com/images/I/71Q9XC7yA6L._AC_UF894,1000_QL80_.jpg",
-          "stock": 989,
+          "stock": 986,
           "quantity": 1
         }
       ],
-      "totalAmount": 600000,
-      "status": "Đang xử lý",
-      "createdAt": "2026-04-21T05:31:36.589Z",
-      "id": "bGb03zfC2pQ"
+      "totalAmount": 500000,
+      "status": "Đã xử lý",
+      "createdAt": "2026-04-23T04:40:17.167Z",
+      "id": "OCIOh5CBVQo"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
