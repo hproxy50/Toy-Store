@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
+import "../../Css/AdminCss/OrderManager.css";
 
 interface OrderItem {
   id: string;
   name: string;
   price: number;
   quantity: number;
-  image?: string; // Khai báo thêm thuộc tính ảnh
+  image?: string;
 }
 
 interface CustomerInfo {
@@ -144,40 +145,22 @@ const OrderManager: React.FC = () => {
   };
 
   return (
-    <div style={{ fontFamily: "sans-serif", maxWidth: "1200px" }}>
+    <div className="order-manager-container">
       <h2>Quản Lý Đơn Hàng</h2>
 
-      <div
-        style={{
-          display: "flex",
-          gap: "15px",
-          marginBottom: "25px",
-          flexWrap: "wrap",
-        }}
-      >
+      <div className="controls-wrapper">
         <input
           type="text"
           placeholder="Tìm kiếm theo tên người đặt..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          style={{
-            flex: 1,
-            minWidth: "250px",
-            padding: "10px",
-            borderRadius: "6px",
-            border: "1px solid #ccc",
-          }}
+          className="search-input"
         />
 
         <select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
-          style={{
-            padding: "10px",
-            borderRadius: "6px",
-            border: "1px solid #ccc",
-            cursor: "pointer",
-          }}
+          className="filter-select"
         >
           <option value="">Tất cả trạng thái</option>
           <option value="Đang xử lý">Đang xử lý</option>
@@ -188,12 +171,7 @@ const OrderManager: React.FC = () => {
         <select
           value={sortOrder}
           onChange={(e) => setSortOrder(e.target.value)}
-          style={{
-            padding: "10px",
-            borderRadius: "6px",
-            border: "1px solid #ccc",
-            cursor: "pointer",
-          }}
+          className="filter-select"
         >
           <option value="">Sắp xếp mặc định</option>
           <option value="date_desc">Ngày: Mới nhất đến cũ nhất</option>
@@ -203,24 +181,15 @@ const OrderManager: React.FC = () => {
         </select>
       </div>
 
-      <table
-        style={{
-          width: "100%",
-          borderCollapse: "collapse",
-          textAlign: "left",
-          backgroundColor: "white",
-          boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
-        }}
-      >
+      <table className="orders-table">
         <thead>
-          <tr style={{ backgroundColor: "#f2f2f2" }}>
-            <th style={{ border: "1px solid #ddd", padding: "12px", width: "80px" }}>Mã Đơn</th>
-            {/* Gộp chung Thông tin KH và Sản phẩm vào một cột lớn cho thoáng */}
-            <th style={{ border: "1px solid #ddd", padding: "12px", width: "45%" }}>Thông Tin Đơn Hàng</th>
-            <th style={{ border: "1px solid #ddd", padding: "12px" }}>Ngày Đặt</th>
-            <th style={{ border: "1px solid #ddd", padding: "12px", textAlign: "right" }}>Tổng Tiền</th>
-            <th style={{ border: "1px solid #ddd", padding: "12px", textAlign: "center" }}>Trạng Thái</th>
-            <th style={{ border: "1px solid #ddd", padding: "12px", textAlign: "center" }}>Hành Động</th>
+          <tr className="table-header-row">
+            <th className="th-id">Mã Đơn</th>
+            <th className="th-info">Thông Tin Đơn Hàng</th>
+            <th>Ngày Đặt</th>
+            <th className="th-total">Tổng Tiền</th>
+            <th className="th-status">Trạng Thái</th>
+            <th className="th-action">Hành Động</th>
           </tr>
         </thead>
         <tbody>
@@ -228,121 +197,99 @@ const OrderManager: React.FC = () => {
             filteredAndSortedOrders.map((order) => {
               const statusColors = getStatusColor(order.status);
               return (
-                <tr key={order.id} style={{ borderBottom: "1px solid #eee" }}>
-                  <td style={{ border: "1px solid #ddd", padding: "12px", fontSize: "12px", color: "#666", verticalAlign: "top" }}>
-                    {order.id}
-                  </td>
-                  
-                  {/* CỘT THÔNG TIN ĐƠN HÀNG (KHÁCH HÀNG + SẢN PHẨM) */}
-                  <td style={{ border: "1px solid #ddd", padding: "12px", verticalAlign: "top" }}>
-                    
-                    {/* Phần 1: Thông tin người mua */}
-                    <div style={{ marginBottom: "12px", paddingBottom: "12px", borderBottom: "1px dashed #ddd" }}>
-                      <strong style={{ fontSize: "15px" }}>{order.customerInfo?.fullName}</strong>
-                      <div style={{ fontSize: "13px", color: "#555", marginTop: "4px" }}>
-                        <span style={{ display: "inline-block", marginRight: "15px" }}>
-                          <i className="fa-solid fa-phone" style={{ marginRight: "4px" }}></i> 
+                <tr key={order.id} className="table-row">
+                  <td className="td-id">{order.id}</td>
+
+                  <td>
+                    <div className="customer-info-wrapper">
+                      <strong className="customer-name">
+                        {order.customerInfo?.fullName}
+                      </strong>
+                      <div className="customer-details">
+                        <span className="customer-details-item">
+                          <i className="fa-solid fa-phone customer-details-icon"></i>
                           {order.customerInfo?.phone}
                         </span>
                         <span>
-                          <i className="fa-solid fa-location-dot" style={{ marginRight: "4px" }}></i> 
+                          <i className="fa-solid fa-location-dot customer-details-icon"></i>
                           {order.customerInfo?.address}
                         </span>
                       </div>
-                      <div style={{ fontSize: "13px", color: "#555", marginTop: "4px" }}>
-                         <span style={{ fontWeight: "500" }}>Thanh toán:</span> {order.customerInfo?.paymentMethod === 'bank' ? 'Chuyển khoản' : 'COD'}
+                      <div className="customer-payment">
+                        <span>Thanh toán:</span>{" "}
+                        {order.customerInfo?.paymentMethod === "bank"
+                          ? "Chuyển khoản"
+                          : "COD"}
                       </div>
                     </div>
-
-                    {/* Phần 2: Danh sách sản phẩm */}
                     <div>
-                      <div style={{ fontSize: "12px", fontWeight: "bold", color: "#888", marginBottom: "8px", textTransform: "uppercase" }}>
+                      <div className="products-title">
                         Sản phẩm đã đặt ({order.items?.length || 0})
                       </div>
-                      <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                      <div className="products-list">
                         {order.items?.map((item, index) => (
-                          <div key={index} style={{ display: "flex", alignItems: "center", gap: "10px", backgroundColor: "#f8f9fa", padding: "6px", borderRadius: "6px" }}>
-                            {/* Ảnh thu nhỏ */}
+                          <div key={index} className="product-item">
                             {item.image ? (
-                              <img 
-                                src={item.image} 
-                                alt={item.name} 
-                                style={{ width: "40px", height: "40px", objectFit: "cover", borderRadius: "4px", border: "1px solid #eee" }} 
+                              <img
+                                src={item.image}
+                                alt={item.name}
+                                className="product-image"
                               />
                             ) : (
-                              <div style={{ width: "40px", height: "40px", backgroundColor: "#e9ecef", borderRadius: "4px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "10px", color: "#aaa" }}>No Img</div>
+                              <div className="product-no-image">No Img</div>
                             )}
-                            
-                            {/* Tên và Số lượng */}
-                            <div style={{ flex: 1, fontSize: "13px" }}>
-                              <div style={{ fontWeight: "500", color: "#333", display: "-webkit-box", WebkitLineClamp: 1, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
-                                {item.name}
-                              </div>
-                              <div style={{ color: "#e83e8c", fontWeight: "bold", marginTop: "2px" }}>
-                                {item.price?.toLocaleString("vi-VN")} đ <span style={{ color: "#666", fontWeight: "normal", fontSize: "12px" }}>x{item.quantity}</span>
+
+                            <div className="product-info">
+                              <div className="product-name">{item.name}</div>
+                              <div className="product-price-wrapper">
+                                {item.price?.toLocaleString("vi-VN")} đ{" "}
+                                <span className="product-quantity">
+                                  x{item.quantity}
+                                </span>
                               </div>
                             </div>
                           </div>
                         ))}
                       </div>
                     </div>
+                  </td>
 
-                  </td>
-                  
-                  <td style={{ border: "1px solid #ddd", padding: "12px", verticalAlign: "top" }}>
-                    {formatDate(order.createdAt)}
-                  </td>
-                  <td style={{ border: "1px solid #ddd", padding: "12px", textAlign: "right", fontWeight: "bold", verticalAlign: "top", color: "#d32f2f", fontSize: "16px" }}>
+                  <td>{formatDate(order.createdAt)}</td>
+
+                  <td className="td-total">
                     {order.totalAmount?.toLocaleString("vi-VN")} đ
                   </td>
-                  <td style={{ border: "1px solid #ddd", padding: "12px", textAlign: "center", verticalAlign: "top" }}>
+
+                  <td className="td-status">
                     <span
+                      className="status-badge"
                       style={{
-                        padding: "6px 10px",
-                        borderRadius: "20px",
-                        fontSize: "12px",
-                        fontWeight: "bold",
                         backgroundColor: statusColors.bg,
                         color: statusColors.text,
-                        display: "inline-block",
                       }}
                     >
                       {order.status}
                     </span>
                   </td>
-                  <td style={{ border: "1px solid #ddd", padding: "12px", textAlign: "center", verticalAlign: "top" }}>
+
+                  <td className="td-action">
                     {order.status === "Đang xử lý" && (
                       <button
-                        onClick={() => handleUpdateStatus(order.id, order, "Đã xử lý")}
-                        style={{
-                          width: "100%",
-                          marginBottom: "8px",
-                          padding: "8px 12px",
-                          backgroundColor: "#ffc107",
-                          color: "black",
-                          border: "none",
-                          borderRadius: "4px",
-                          cursor: "pointer",
-                          fontWeight: "bold"
-                        }}
+                        onClick={() =>
+                          handleUpdateStatus(order.id, order, "Đã xử lý")
+                        }
+                        className="action-btn btn-process"
                       >
                         Xử lý đơn
                       </button>
                     )}
-                    {(order.status === "Đang xử lý" || order.status === "Đã xử lý") && (
+                    {(order.status === "Đang xử lý" ||
+                      order.status === "Đã xử lý") && (
                       <button
-                        onClick={() => handleUpdateStatus(order.id, order, "Đã giao")}
-                        style={{
-                          width: "100%",
-                          marginBottom: "8px",
-                          padding: "8px 12px",
-                          backgroundColor: "#28a745",
-                          color: "white",
-                          border: "none",
-                          borderRadius: "4px",
-                          cursor: "pointer",
-                          fontWeight: "bold"
-                        }}
+                        onClick={() =>
+                          handleUpdateStatus(order.id, order, "Đã giao")
+                        }
+                        className="action-btn btn-deliver"
                       >
                         Đã giao hàng
                       </button>
@@ -350,15 +297,7 @@ const OrderManager: React.FC = () => {
 
                     <button
                       onClick={() => handleDeleteOrder(order.id)}
-                      style={{
-                        width: "100%",
-                        padding: "8px 12px",
-                        backgroundColor: "#dc3545",
-                        color: "white",
-                        border: "none",
-                        borderRadius: "4px",
-                        cursor: "pointer",
-                      }}
+                      className="action-btn btn-delete"
                     >
                       Xóa đơn
                     </button>
@@ -368,15 +307,7 @@ const OrderManager: React.FC = () => {
             })
           ) : (
             <tr>
-              <td
-                colSpan={6}
-                style={{
-                  textAlign: "center",
-                  padding: "40px 20px",
-                  color: "#888",
-                  fontSize: "16px"
-                }}
-              >
+              <td colSpan={6} className="td-empty">
                 Không tìm thấy đơn hàng nào phù hợp.
               </td>
             </tr>

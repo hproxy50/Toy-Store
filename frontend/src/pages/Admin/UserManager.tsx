@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "../../Css/AdminCss/UserManager.css";
 
 interface User {
   id: string;
@@ -120,31 +121,21 @@ function UserManager() {
     });
 
   return (
-    <div style={{ fontFamily: "sans-serif", maxWidth: "1000px" }}>
+    <div className="user-manager-container">
       <h2>Quản Lý Người Dùng</h2>
 
-      <div style={{ display: "flex", gap: "15px", marginBottom: "15px" }}>
+      <div className="controls-wrapper">
         <input
           type="text"
           placeholder="Tìm kiếm theo tên hoặc email..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          style={{
-            flex: 1,
-            padding: "10px",
-            borderRadius: "6px",
-            border: "1px solid #ccc",
-          }}
+          className="search-input"
         />
         <select
           value={sortRole}
           onChange={(e) => setSortRole(e.target.value)}
-          style={{
-            padding: "10px",
-            borderRadius: "6px",
-            border: "1px solid #ccc",
-            cursor: "pointer",
-          }}
+          className="filter-select"
         >
           <option value="">Sắp xếp mặc định</option>
           <option value="admin_first">Vai trò: Admin xếp trước</option>
@@ -165,34 +156,16 @@ function UserManager() {
           }
           setShowForm(!showForm);
         }}
-        style={{
-          marginBottom: "20px",
-          padding: "10px 15px",
-          backgroundColor: showForm ? "#6c757d" : "#007bff",
-          color: "white",
-          border: "none",
-          borderRadius: "4px",
-          cursor: "pointer",
-          fontWeight: "bold",
-        }}
+        className={`btn btn-toggle ${showForm ? "close" : ""}`}
       >
         {showForm ? "- Đóng Form" : "+ Thêm Tài Khoản"}
       </button>
 
       {showForm && (
-        <form
-          onSubmit={handleSubmit}
-          style={{
-            marginBottom: "30px",
-            padding: "20px",
-            border: "1px solid #ccc",
-            borderRadius: "8px",
-            backgroundColor: "white",
-          }}
-        >
+        <form onSubmit={handleSubmit} className="user-form">
           <h3>{editId ? "Sửa Tài Khoản" : "Thêm Tài Khoản Mới"}</h3>
 
-          <div style={{ marginBottom: "10px" }}>
+          <div className="form-group">
             <input
               type="text"
               name="name"
@@ -200,10 +173,10 @@ function UserManager() {
               value={formData.name}
               onChange={handleInputChange}
               required
-              style={{ width: "100%", padding: "8px" }}
+              className="form-input"
             />
           </div>
-          <div style={{ marginBottom: "10px" }}>
+          <div className="form-group">
             <input
               type="text"
               name="email"
@@ -211,10 +184,10 @@ function UserManager() {
               value={formData.email}
               onChange={handleInputChange}
               required
-              style={{ width: "100%", padding: "8px" }}
+              className="form-input"
             />
           </div>
-          <div style={{ marginBottom: "10px" }}>
+          <div className="form-group">
             <input
               type="text" // Có thể đổi thành type="password" nếu muốn ẩn mật khẩu
               name="password"
@@ -222,19 +195,17 @@ function UserManager() {
               value={formData.password}
               onChange={handleInputChange}
               required
-              style={{ width: "100%", padding: "8px" }}
+              className="form-input"
             />
           </div>
 
-          <div style={{ marginBottom: "15px" }}>
-            <label style={{ marginRight: "10px", fontWeight: "bold" }}>
-              Vai trò (Role):
-            </label>
+          <div className="form-group-spaced">
+            <label className="form-label">Vai trò (Role):</label>
             <select
               name="role"
               value={formData.role}
               onChange={handleInputChange}
-              style={{ padding: "8px", borderRadius: "4px" }}
+              className="form-select"
             >
               <option value="customer">Customer (Khách hàng)</option>
               <option value="admin">Admin (Quản trị viên)</option>
@@ -243,17 +214,11 @@ function UserManager() {
 
           <button
             type="submit"
-            style={{
-              padding: "10px 20px",
-              backgroundColor: editId ? "#ff9800" : "#4CAF50",
-              color: "white",
-              border: "none",
-              cursor: "pointer",
-              borderRadius: "4px",
-            }}
+            className={`btn btn-submit ${editId ? "update" : ""}`}
           >
             {editId ? "Cập Nhật" : "Thêm Mới"}
           </button>
+          
           {editId && (
             <button
               type="button"
@@ -267,15 +232,7 @@ function UserManager() {
                 });
                 setShowForm(false);
               }}
-              style={{
-                padding: "10px 20px",
-                marginLeft: "10px",
-                backgroundColor: "#f44336",
-                color: "white",
-                border: "none",
-                cursor: "pointer",
-                borderRadius: "4px",
-              }}
+              className="btn btn-cancel"
             >
               Hủy
             </button>
@@ -283,102 +240,40 @@ function UserManager() {
         </form>
       )}
 
-      <table
-        style={{
-          width: "100%",
-          borderCollapse: "collapse",
-          textAlign: "left",
-          backgroundColor: "white",
-          boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
-        }}
-      >
+      <table className="users-table">
         <thead>
-          <tr style={{ backgroundColor: "#f2f2f2" }}>
-            <th style={{ border: "1px solid #ddd", padding: "12px" }}>Tên</th>
-            <th style={{ border: "1px solid #ddd", padding: "12px" }}>Email</th>
-            <th
-              style={{
-                border: "1px solid #ddd",
-                padding: "12px",
-                textAlign: "center",
-              }}
-            >
-              Vai trò
-            </th>
-            <th
-              style={{
-                border: "1px solid #ddd",
-                padding: "12px",
-                textAlign: "center",
-                width: "150px",
-              }}
-            >
-              Hành động
-            </th>
+          <tr className="table-header-row">
+            <th>Tên</th>
+            <th>Email</th>
+            <th className="th-center">Vai trò</th>
+            <th className="th-action">Hành động</th>
           </tr>
         </thead>
         <tbody>
           {filteredAndSortedUsers.length > 0 ? (
             filteredAndSortedUsers.map((user) => (
               <tr key={user.id}>
-                <td style={{ border: "1px solid #ddd", padding: "12px" }}>
-                  {user.name}
-                </td>
-                <td style={{ border: "1px solid #ddd", padding: "12px" }}>
-                  {user.email}
-                </td>
-                <td
-                  style={{
-                    border: "1px solid #ddd",
-                    padding: "12px",
-                    textAlign: "center",
-                  }}
-                >
+                <td>{user.name}</td>
+                <td>{user.email}</td>
+                <td className="td-center">
                   <span
-                    style={{
-                      padding: "4px 8px",
-                      borderRadius: "12px",
-                      fontSize: "12px",
-                      fontWeight: "bold",
-                      backgroundColor:
-                        user.role === "admin" ? "#ffeeba" : "#d4edda",
-                      color: user.role === "admin" ? "#856404" : "#155724",
-                    }}
+                    className={`role-badge ${
+                      user.role === "admin" ? "admin" : "customer"
+                    }`}
                   >
                     {user.role.toUpperCase()}
                   </span>
                 </td>
-                <td
-                  style={{
-                    border: "1px solid #ddd",
-                    padding: "12px",
-                    textAlign: "center",
-                  }}
-                >
+                <td className="td-center">
                   <button
                     onClick={() => handleEditClick(user)}
-                    style={{
-                      marginRight: "8px",
-                      padding: "6px 12px",
-                      backgroundColor: "#ffc107",
-                      color: "black",
-                      border: "none",
-                      borderRadius: "4px",
-                      cursor: "pointer",
-                    }}
+                    className="btn btn-edit"
                   >
                     Sửa
                   </button>
                   <button
                     onClick={() => handleDelete(user.id)}
-                    style={{
-                      padding: "6px 12px",
-                      backgroundColor: "#dc3545",
-                      color: "white",
-                      border: "none",
-                      borderRadius: "4px",
-                      cursor: "pointer",
-                    }}
+                    className="btn btn-delete"
                   >
                     Xóa
                   </button>
@@ -387,14 +282,7 @@ function UserManager() {
             ))
           ) : (
             <tr>
-              <td
-                colSpan={4}
-                style={{
-                  textAlign: "center",
-                  padding: "20px",
-                  color: "gray",
-                }}
-              >
+              <td colSpan={4} className="td-empty">
                 Không tìm thấy người dùng nào phù hợp!
               </td>
             </tr>

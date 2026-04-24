@@ -1,0 +1,155 @@
+.user-manager-container {
+  font-family: sans-serif;
+  max-width: 1000px;
+}
+
+.controls-wrapper {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.search-input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.filter-select {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.btn {
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-toggle {
+  margin-bottom: 20px;
+  padding: 10px 15px;
+  color: white;
+  font-weight: bold;
+  background-color: #007bff;
+}
+
+.btn-toggle.close {
+  background-color: #6c757d;
+}
+
+.user-form {
+  margin-bottom: 30px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: white;
+}
+
+.form-group {
+  margin-bottom: 10px;
+}
+
+.form-group-spaced {
+  margin-bottom: 15px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.form-label {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.form-select {
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.btn-submit {
+  padding: 10px 20px;
+  color: white;
+  background-color: #4caf50;
+}
+
+.btn-submit.update {
+  background-color: #ff9800;
+}
+
+.btn-cancel {
+  padding: 10px 20px;
+  margin-left: 10px;
+  background-color: #f44336;
+  color: white;
+}
+
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  background-color: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.users-table th,
+.users-table td {
+  border: 1px solid #ddd;
+  padding: 12px;
+}
+
+.table-header-row {
+  background-color: #f2f2f2;
+}
+
+.th-action {
+  text-align: center;
+  width: 150px;
+}
+
+.td-center,
+.th-center {
+  text-align: center;
+}
+
+.role-badge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.role-badge.admin {
+  background-color: #ffeeba;
+  color: #856404;
+}
+
+.role-badge.customer {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.btn-edit {
+  margin-right: 8px;
+  padding: 6px 12px;
+  background-color: #ffc107;
+  color: black;
+}
+
+.btn-delete {
+  padding: 6px 12px;
+  background-color: #dc3545;
+  color: white;
+}
+
+.td-empty {
+  text-align: center;
+  padding: 20px;
+  color: gray;
+}

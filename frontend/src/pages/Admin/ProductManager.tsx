@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "../../Css/AdminCss/ProductManager.css";
 
 interface Toy {
   id: string;
@@ -13,17 +14,19 @@ const API_URL = "http://localhost:3000/toys";
 
 function ProductManager() {
   const [toys, setToys] = useState<Toy[]>([]);
+
+  // SỬA: Cho phép price và quantity nhận chuỗi rỗng lúc ban đầu thay vì luôn ép số 0
   const [formData, setFormData] = useState({
     name: "",
-    price: 0,
+    price: "" as number | string,
     category: "",
     image: "",
-    quantity: 0,
+    quantity: "" as number | string,
   });
 
   const [editId, setEditId] = useState<string | null>(null);
   const [showForm, setShowForm] = useState<boolean>(false);
-  
+
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOrder, setSortOrder] = useState("");
 
@@ -46,9 +49,12 @@ function ProductManager() {
     let parsedValue: string | number = value;
 
     if (name === "price") {
-      parsedValue = Number(value);
+      // SỬA: Loại bỏ các ký tự không phải là số (vd: dấu chấm). Nếu xóa hết thì gán chuỗi rỗng.
+      const rawValue = value.replace(/\D/g, "");
+      parsedValue = rawValue === "" ? "" : Number(rawValue);
     } else if (name === "quantity") {
-      parsedValue = Math.max(0, parseInt(value || "0", 10));
+      // SỬA: Cho phép xóa rỗng, nếu có số thì phân tích thành số nguyên
+      parsedValue = value === "" ? "" : Math.max(0, parseInt(value, 10));
     }
 
     setFormData({ ...formData, [name]: parsedValue });
@@ -56,21 +62,31 @@ function ProductManager() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // SỬA: Đảm bảo format gửi đi lên API chắc chắn là số nguyên
+    const payload = {
+      ...formData,
+      price: Number(formData.price) || 0,
+      quantity: Number(formData.quantity) || 0,
+    };
+
     if (editId) {
       await fetch(`${API_URL}/${editId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(payload),
       });
       setEditId(null);
     } else {
       await fetch(API_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(payload),
       });
     }
-    setFormData({ name: "", price: 0, category: "", image: "", quantity: 0 });
+
+    // SỬA: Đặt lại chuỗi rỗng thay vì số 0
+    setFormData({ name: "", price: "", category: "", image: "", quantity: "" });
     fetchToys();
     setShowForm(false);
   };
@@ -81,7 +97,7 @@ function ProductManager() {
       price: toy.price,
       category: toy.category,
       image: toy.image || "",
-      quantity: toy.quantity || 0,
+      quantity: toy.quantity || 0, // Lúc edit thì hiển thị số thực tế
     });
     setEditId(toy.id);
     setShowForm(true);
@@ -113,31 +129,21 @@ function ProductManager() {
     });
 
   return (
-    <div style={{ fontFamily: "sans-serif", maxWidth: "1000px" }}>
+    <div className="product-manager-container">
       <h2>Quản Lý Sản Phẩm</h2>
 
-      <div style={{ display: "flex", gap: "15px", marginBottom: "15px" }}>
+      <div className="controls-wrapper">
         <input
           type="text"
           placeholder="Tìm kiếm theo tên hoặc danh mục..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          style={{
-            flex: 1,
-            padding: "10px",
-            borderRadius: "6px",
-            border: "1px solid #ccc",
-          }}
+          className="search-input"
         />
         <select
           value={sortOrder}
           onChange={(e) => setSortOrder(e.target.value)}
-          style={{
-            padding: "10px",
-            borderRadius: "6px",
-            border: "1px solid #ccc",
-            cursor: "pointer",
-          }}
+          className="filter-select"
         >
           <option value="">Sắp xếp mặc định</option>
           <option value="price_asc">Giá: thấp đến cao</option>
@@ -153,41 +159,24 @@ function ProductManager() {
             setEditId(null);
             setFormData({
               name: "",
-              price: 0,
+              price: "",
               category: "",
               image: "",
-              quantity: 0,
+              quantity: "",
             });
           }
           setShowForm(!showForm);
         }}
-        style={{
-          marginBottom: "20px",
-          padding: "10px 15px",
-          backgroundColor: showForm ? "#6c757d" : "#007bff",
-          color: "white",
-          border: "none",
-          borderRadius: "4px",
-          cursor: "pointer",
-          fontWeight: "bold",
-        }}
+        className={`btn btn-toggle ${showForm ? "close" : ""}`}
       >
         {showForm ? "- Đóng Form" : "+ Thêm Mới"}
       </button>
 
       {showForm && (
-        <form
-          onSubmit={handleSubmit}
-          style={{
-            marginBottom: "30px",
-            padding: "20px",
-            border: "1px solid #ccc",
-            borderRadius: "8px",
-            backgroundColor: "white",
-          }}
-        >
+        <form onSubmit={handleSubmit} className="product-form">
           <h3>{editId ? "Sửa Đồ Chơi" : "Thêm Đồ Chơi Mới"}</h3>
-          <div style={{ marginBottom: "10px" }}>
+
+          <div className="form-group">
             <input
               type="text"
               name="name"
@@ -195,10 +184,11 @@ function ProductManager() {
               value={formData.name}
               onChange={handleInputChange}
               required
-              style={{ width: "100%", padding: "8px" }}
+              className="form-input"
             />
           </div>
-          <div style={{ marginBottom: "10px" }}>
+
+          <div className="form-group">
             <input
               type="url"
               name="image"
@@ -206,36 +196,41 @@ function ProductManager() {
               value={formData.image}
               onChange={handleInputChange}
               required
-              style={{ width: "100%", padding: "8px" }}
+              className="form-input"
             />
           </div>
-          <div style={{ marginBottom: "10px" }}>
+
+          <div className="form-group">
             <input
               type="number"
               name="quantity"
               placeholder="Số lượng"
-              value={
-                formData.quantity === 0 && !editId ? "" : formData.quantity
-              }
+              value={formData.quantity}
               onChange={handleInputChange}
               required
               min="0"
               step="1"
-              style={{ width: "100%", padding: "8px" }}
+              className="form-input"
             />
           </div>
-          <div style={{ marginBottom: "10px" }}>
+
+          <div className="form-group">
             <input
-              type="number"
+              type="text"
               name="price"
               placeholder="Giá tiền"
-              value={formData.price || ""}
+              value={
+                formData.price !== ""
+                  ? Number(formData.price).toLocaleString("vi-VN")
+                  : ""
+              }
               onChange={handleInputChange}
               required
-              style={{ width: "100%", padding: "8px" }}
+              className="form-input"
             />
           </div>
-          <div style={{ marginBottom: "10px" }}>
+
+          <div className="form-group">
             <input
               type="text"
               name="category"
@@ -243,22 +238,17 @@ function ProductManager() {
               value={formData.category}
               onChange={handleInputChange}
               required
-              style={{ width: "100%", padding: "8px" }}
+              className="form-input"
             />
           </div>
 
           <button
             type="submit"
-            style={{
-              padding: "10px 20px",
-              backgroundColor: editId ? "#ff9800" : "#4CAF50",
-              color: "white",
-              border: "none",
-              cursor: "pointer",
-            }}
+            className={`btn btn-submit ${editId ? "update" : ""}`}
           >
             {editId ? "Cập Nhật" : "Thêm Mới"}
           </button>
+
           {editId && (
             <button
               type="button"
@@ -266,21 +256,14 @@ function ProductManager() {
                 setEditId(null);
                 setFormData({
                   name: "",
-                  price: 0,
+                  price: "",
                   category: "",
                   image: "",
-                  quantity: 0,
+                  quantity: "",
                 });
                 setShowForm(false);
               }}
-              style={{
-                padding: "10px 20px",
-                marginLeft: "10px",
-                backgroundColor: "#f44336",
-                color: "white",
-                border: "none",
-                cursor: "pointer",
-              }}
+              className="btn btn-cancel"
             >
               Hủy
             </button>
@@ -288,73 +271,65 @@ function ProductManager() {
         </form>
       )}
 
-      <table
-        style={{
-          width: "100%",
-          borderCollapse: "collapse",
-          textAlign: "left",
-          backgroundColor: "white",
-        }}
-      >
+      <table className="products-table">
         <thead>
-          <tr style={{ backgroundColor: "#f2f2f2" }}>
-            <th style={{ border: "1px solid #ddd", padding: "8px", width: "80px", textAlign: "center" }}>Hình ảnh</th>
-            <th style={{ border: "1px solid #ddd", padding: "8px" }}>Tên</th>
-            <th style={{ border: "1px solid #ddd", padding: "8px" }}>Số lượng</th>
-            <th style={{ border: "1px solid #ddd", padding: "8px" }}>Giá</th>
-            <th style={{ border: "1px solid #ddd", padding: "8px" }}>Danh mục</th>
-            <th style={{ border: "1px solid #ddd", padding: "8px", textAlign: "center" }}>Hành động</th>
+          <tr className="table-header-row">
+            <th className="th-image">Hình ảnh</th>
+            <th>Tên</th>
+            <th>Số lượng</th>
+            <th>Giá</th>
+            <th>Danh mục</th>
+            <th className="td-center">Hành động</th>
           </tr>
         </thead>
         <tbody>
           {filteredAndSortedToys.length > 0 ? (
             filteredAndSortedToys.map((toy) => (
               <tr key={toy.id}>
-                <td style={{ border: "1px solid #ddd", padding: "8px", textAlign: "center" }}>
+                <td className="td-center">
                   {toy.image ? (
                     <img
                       src={toy.image}
                       alt={toy.name}
-                      style={{
-                        width: "60px",
-                        height: "60px",
-                        objectFit: "cover",
-                        borderRadius: "4px",
-                      }}
+                      className="product-img"
                     />
                   ) : (
-                    <span style={{ fontSize: "12px", color: "gray" }}>Chưa có ảnh</span>
+                    <span className="no-img-text">Chưa có ảnh</span>
                   )}
                 </td>
-                <td style={{ border: "1px solid #ddd", padding: "8px" }}>{toy.name}</td>
-                <td style={{ border: "1px solid #ddd", padding: "8px" }}>
-                  <span style={{ fontWeight: "bold", color: toy.quantity === 0 ? "red" : "black" }}>
+                <td>{toy.name}</td>
+                <td>
+                  <span
+                    className={`quantity-text ${
+                      toy.quantity === 0 ? "out-of-stock" : ""
+                    }`}
+                  >
                     {toy.quantity}
                   </span>
                 </td>
-                <td style={{ border: "1px solid #ddd", padding: "8px" }}>
-                  {toy.price.toLocaleString("vi-VN")} đ
-                </td>
-                <td style={{ border: "1px solid #ddd", padding: "8px" }}>{toy.category}</td>
-                <td style={{ border: "1px solid #ddd", padding: "8px", textAlign: "center" }}>
-                  <button
-                    onClick={() => handleEditClick(toy)}
-                    style={{ marginRight: "10px", padding: "5px 10px", cursor: "pointer" }}
-                  >
-                    Sửa
-                  </button>
-                  <button
-                    onClick={() => handleDelete(toy.id)}
-                    style={{ padding: "5px 10px", backgroundColor: "red", color: "white", border: "none", cursor: "pointer" }}
-                  >
-                    Xóa
-                  </button>
+                <td>{toy.price.toLocaleString("vi-VN")} đ</td>
+                <td>{toy.category}</td>
+                <td className="td-center">
+                  <div className="action-buttons">
+                    <button
+                      onClick={() => handleEditClick(toy)}
+                      className="btn btn-edit"
+                    >
+                      Sửa
+                    </button>
+                    <button
+                      onClick={() => handleDelete(toy.id)}
+                      className="btn btn-delete"
+                    >
+                      Xóa
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan={6} style={{ border: "1px solid #ddd", padding: "20px", textAlign: "center", color: "gray" }}>
+              <td colSpan={6} className="td-empty">
                 Không tìm thấy sản phẩm nào khớp với tìm kiếm của bạn.
               </td>
             </tr>

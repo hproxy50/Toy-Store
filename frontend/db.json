@@ -23,7 +23,7 @@
       "price": 500000,
       "category": "Lego",
       "image": "https://m.media-amazon.com/images/I/71Q9XC7yA6L._AC_UF894,1000_QL80_.jpg",
-      "quantity": 0,
+      "quantity": 1,
       "id": "1"
     },
     {
@@ -31,7 +31,7 @@
       "price": 100000,
       "category": "Lego",
       "image": "https://m.media-amazon.com/images/I/51KbHlNJ8lL._SS400_.jpg",
-      "quantity": 76,
+      "quantity": 74,
       "id": "rHTYadxNxAM"
     },
     {
@@ -39,7 +39,7 @@
       "price": 1610000,
       "category": "Figure",
       "image": "https://azgundam.com/wp-content/uploads/2026/02/HG-XI-GUNDAM-HATHAWAY-NYMPH-CIRCE-AZGUNDAM.jpg",
-      "quantity": 96,
+      "quantity": 169,
       "id": "Yegp7MhUQA4"
     },
     {
@@ -49,6 +49,22 @@
       "image": "https://azgundam.com/wp-content/uploads/2018/11/MG-SAZABI.jpg",
       "quantity": 17,
       "id": "ryrLUtgpZhs"
+    },
+    {
+      "name": "#777 MARGHERITA",
+      "price": 1000000,
+      "category": "Lego",
+      "image": "https://azgundam.com/wp-content/uploads/2026/02/HG-XI-GUNDAM-HATHAWAY-NYMPH-CIRCE-AZGUNDAM.jpg",
+      "quantity": 6,
+      "id": "Be4etpHJ0HQ"
+    },
+    {
+      "name": "#777 MARGHERITA",
+      "price": 10000008888,
+      "category": "Lego",
+      "image": "https://azgundam.com/wp-content/uploads/2026/02/HG-XI-GUNDAM-HATHAWAY-NYMPH-CIRCE-AZGUNDAM.jpg",
+      "quantity": 677,
+      "id": "mADkB9GuPg8"
     }
   ],
   "orders": [

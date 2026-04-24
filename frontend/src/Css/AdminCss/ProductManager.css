@@ -1,0 +1,162 @@
+.product-manager-container {
+  font-family: sans-serif;
+  max-width: 1000px;
+}
+
+.controls-wrapper {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.search-input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.filter-select {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.btn {
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-toggle {
+  margin-bottom: 20px;
+  padding: 10px 15px;
+  color: white;
+  font-weight: bold;
+  background-color: #007bff;
+}
+
+.btn-toggle.close {
+  background-color: #6c757d;
+}
+
+.product-form {
+  margin-bottom: 30px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: white;
+}
+
+.form-group {
+  margin-bottom: 10px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.btn-submit {
+  padding: 10px 20px;
+  color: white;
+  background-color: #4caf50;
+}
+
+.btn-submit.update {
+  background-color: #ff9800;
+}
+
+.btn-cancel {
+  padding: 10px 20px;
+  margin-left: 10px;
+  background-color: #f44336;
+  color: white;
+}
+
+.products-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  background-color: white;
+}
+
+.products-table th,
+.products-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.table-header-row {
+  background-color: #f2f2f2;
+}
+
+.th-image {
+  width: 80px;
+  text-align: center;
+}
+
+.td-center {
+  text-align: center;
+}
+
+.product-img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.no-img-text {
+  font-size: 12px;
+  color: gray;
+}
+
+.quantity-text {
+  font-weight: bold;
+  color: black;
+}
+
+.quantity-text.out-of-stock {
+  color: red;
+}
+
+.btn-edit {
+  margin-right: 10px;
+  padding: 5px 10px;
+  background-color: #e0e0e0;
+  color: black;
+}
+
+.btn-delete {
+  padding: 5px 10px;
+  background-color: red;
+  color: white;
+}
+
+.td-empty {
+  padding: 20px;
+  text-align: center;
+  color: gray;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.btn-edit {
+  padding: 5px 10px;
+  background-color: #ffc107;
+  color: black;
+}
+
+.btn-delete {
+  padding: 5px 10px;
+  background-color: #dc3545;
+  color: white;
+}

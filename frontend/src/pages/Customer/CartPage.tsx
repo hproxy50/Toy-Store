@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useCart } from "../../context/CartContext";
 import { useNavigate } from "react-router-dom";
 import logo from "../../assets/az-gundam-new-logo-2023-website-logo.jpg";
@@ -15,6 +15,11 @@ const CartPage: React.FC = () => {
   const navigate = useNavigate();
 
   const totalAmount = getTotalAmount();
+
+  // THÊM MỚI: State lưu trữ tạm thời giá trị người dùng đang gõ cho từng item
+  const [localQuantities, setLocalQuantities] = useState<
+    Record<string, string | number>
+  >({});
 
   const handleRemoveItem = async (item: any) => {
     try {
@@ -33,13 +38,41 @@ const CartPage: React.FC = () => {
     }
   };
 
-  const handleUpdateQuantity = async (item: any, newQuantityStr: string) => {
-    const newQuantity = Number(newQuantityStr);
-    if (newQuantity < 1) return;
+  // THÊM MỚI: Hàm xử lý khi người dùng đang gõ (chưa gọi API)
+  const handleQuantityChange = (id: string, value: string) => {
+    if (value === "") {
+      // Cho phép xóa rỗng ô input
+      setLocalQuantities((prev) => ({ ...prev, [id]: "" }));
+    } else {
+      setLocalQuantities((prev) => ({ ...prev, [id]: Number(value) }));
+    }
+  };
 
-    const diff = newQuantity - item.quantity;
+  // THÊM MỚI: Hàm xử lý Validate và gọi API khi người dùng nhập xong (click ra ngoài hoặc Enter)
+  const handleQuantityBlur = async (item: any) => {
+    const currentInput = localQuantities[item.id];
 
-    if (diff === 0) return;
+    // Nếu người dùng chưa tương tác với ô input này thì bỏ qua
+    if (currentInput === undefined) return;
+
+    let finalQuantity = Number(currentInput);
+
+    // KIỂM TRA QUAN TRỌNG: Nếu để trống ("") hoặc nhập <= 0, ép về 1
+    if (currentInput === "" || finalQuantity < 1) {
+      finalQuantity = 1;
+    }
+
+    const diff = finalQuantity - item.quantity;
+
+    // Nếu không có thay đổi so với giỏ hàng thì xóa state tạm và dừng lại
+    if (diff === 0) {
+      setLocalQuantities((prev) => {
+        const newState = { ...prev };
+        delete newState[item.id];
+        return newState;
+      });
+      return;
+    }
 
     try {
       const res = await fetch(`http://localhost:3000/toys/${item.id}`);
@@ -47,6 +80,12 @@ const CartPage: React.FC = () => {
 
       if (diff > 0 && dbItem.quantity < diff) {
         alert("Số lượng trong kho không đủ để thêm!");
+        // Nếu lỗi, xóa state tạm để UI tự động hoàn tác về số lượng cũ từ `cart`
+        setLocalQuantities((prev) => {
+          const newState = { ...prev };
+          delete newState[item.id];
+          return newState;
+        });
         return;
       }
 
@@ -56,17 +95,31 @@ const CartPage: React.FC = () => {
         body: JSON.stringify({ quantity: dbItem.quantity - diff }),
       });
 
-      updateCartQuantity(item.id, newQuantity);
+      // Cập nhật Context chính thức
+      updateCartQuantity(item.id, finalQuantity);
+
+      // Cập nhật thành công thì dọn dẹp state tạm
+      setLocalQuantities((prev) => {
+        const newState = { ...prev };
+        delete newState[item.id];
+        return newState;
+      });
     } catch (error) {
       console.error("Lỗi khi cập nhật số lượng:", error);
     }
   };
 
-  // 3. HOÀN TRẢ KHO KHI XÓA TOÀN BỘ GIỎ HÀNG
+  // THÊM MỚI: Nhấn Enter để kết thúc việc nhập số
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.currentTarget.blur();
+    }
+  };
+
   const handleClearCart = async () => {
     if (
       window.confirm(
-        "Bạn có chắc chắn muốn xóa toàn bộ giỏ hàng? Sản phẩm sẽ được trả lại kho.",
+        "Bạn có chắc chắn muốn xóa toàn bộ giỏ hàng? Sản phẩm sẽ được trả lại kho."
       )
     ) {
       try {
@@ -82,7 +135,7 @@ const CartPage: React.FC = () => {
                 quantity: dbItem.quantity + item.quantity,
               }),
             });
-          }),
+          })
         );
 
         clearCart();
@@ -177,13 +230,20 @@ const CartPage: React.FC = () => {
                     {item.price.toLocaleString("vi-VN")} đ
                   </td>
                   <td style={{ padding: "12px", textAlign: "center" }}>
+                    {/* Đã chỉnh sửa lại Input */}
                     <input
                       type="number"
                       min="1"
-                      value={item.quantity}
-                      onChange={(e) =>
-                        handleUpdateQuantity(item, e.target.value)
+                      value={
+                        localQuantities[item.id] !== undefined
+                          ? localQuantities[item.id]
+                          : item.quantity
                       }
+                      onChange={(e) =>
+                        handleQuantityChange(item.id, e.target.value)
+                      }
+                      onBlur={() => handleQuantityBlur(item)}
+                      onKeyDown={handleKeyDown}
                       style={{
                         width: "80px",
                         padding: "6px",
