@@ -1,0 +1,65 @@
+.layout-container {
+  background: #f5f6fa;
+  min-height: 100vh;
+}
+
+/* HEADER */
+.header {
+  background: #1e1e2f;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 30px;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.logo img {
+  height: 40px;
+}
+
+.nav button {
+  margin-left: 15px;
+  background: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+/* BODY */
+.layout-body {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+}
+
+/* CONTENT */
+.layout-content {
+  width: 100%;
+  max-width: 1100px;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+/* ADS */
+.side-ads {
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.ad-box {
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+}

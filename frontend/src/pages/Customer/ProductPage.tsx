@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 import "../../Css/Customer/ProductPage.css";
 
+
 interface Toy {
   id: string;
   name: string;

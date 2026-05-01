@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useCart } from "../../context/CartContext";
 import { useNavigate } from "react-router-dom";
-import logo from "../../assets/az-gundam-new-logo-2023-website-logo.jpg";
-import "../../Css/Customer/ProductPage.css";
+import CustomerLayout from "../../components/Customer/CustomerLayout";
+import "../../components/Customer/button.css";
 
 const CartPage: React.FC = () => {
   const {
@@ -38,29 +38,21 @@ const CartPage: React.FC = () => {
   };
 
   const handleQuantityChange = (id: string, value: string) => {
-    if (value === "") {
-      setLocalQuantities((prev) => ({ ...prev, [id]: "" }));
-    } else {
-      setLocalQuantities((prev) => ({ ...prev, [id]: Number(value) }));
-    }
+    setLocalQuantities((prev) => ({
+      ...prev,
+      [id]: value === "" ? "" : Number(value),
+    }));
   };
 
   const handleQuantityBlur = async (item: any) => {
-    const currentInput = localQuantities[item.id];
-    if (currentInput === undefined) return;
+    const input = localQuantities[item.id];
+    if (input === undefined) return;
 
-    let finalQuantity = Number(currentInput);
-
-    if (currentInput === "" || finalQuantity < 1) {
-      finalQuantity = 1;
-    }
+    let finalQuantity = Number(input);
+    if (input === "" || finalQuantity < 1) finalQuantity = 1;
 
     const diff = finalQuantity - item.quantity;
-
-    if (diff === 0) {
-      cleanup(item.id);
-      return;
-    }
+    if (diff === 0) return;
 
     try {
       const res = await fetch(`http://localhost:3000/toys/${item.id}`);
@@ -68,7 +60,6 @@ const CartPage: React.FC = () => {
 
       if (diff > 0 && dbItem.quantity < diff) {
         alert("Không đủ hàng!");
-        cleanup(item.id);
         return;
       }
 
@@ -79,199 +70,118 @@ const CartPage: React.FC = () => {
       });
 
       updateCartQuantity(item.id, finalQuantity);
-      cleanup(item.id);
     } catch (err) {
       console.error(err);
     }
   };
 
-  const cleanup = (id: string) => {
-    setLocalQuantities((prev) => {
-      const newState = { ...prev };
-      delete newState[id];
-      return newState;
-    });
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") e.currentTarget.blur();
-  };
-
   return (
-    <div style={{ maxWidth: "1200px", margin: "40px auto", padding: "20px" }}>
-      
-      {/* HEADER */}
-      <div style={headerStyle}>
-        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          <img src={logo} style={{ height: "50px" }} />
+    <CustomerLayout>
+      <div style={{ maxWidth: "1200px", margin: "40px auto" }}>
+        
+        {/* HEADER */}
+        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 30 }}>
           <h2>Giỏ hàng</h2>
+          <button className="btn btn-secondary" onClick={() => navigate("/")}>
+            ← Tiếp tục mua
+          </button>
         </div>
 
-        <button style={blueBtn} onClick={() => navigate("/")}>
-          ← Tiếp tục mua
-        </button>
-      </div>
-
-      {cart.length === 0 ? (
-        <div style={{ textAlign: "center", marginTop: "100px" }}>
-          <h3>Giỏ hàng trống</h3>
-        </div>
-      ) : (
-        <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: "30px" }}>
-          
-          {/* TABLE */}
-          <div style={card}>
-            <table style={{ width: "100%", borderCollapse: "collapse" }}>
-              <thead>
-                <tr style={{ background: "#f5f5f5" }}>
-                  <th style={th}>Sản phẩm</th>
-                  <th style={thCenter}>Giá</th>
-                  <th style={thCenter}>Số lượng</th>
-                  <th style={thCenter}>Tổng</th>
-                  <th style={thCenter}></th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {cart.map((item) => (
-                  <tr key={item.id} style={{ borderBottom: "1px solid #eee" }}>
-                    <td style={tdFlex}>
-                      <img src={item.image} style={{ width: "60px" }} />
-                      <div>
-                        <strong>{item.name}</strong>
-                        <p style={{ margin: 0, color: "#777" }}>{item.category}</p>
-                      </div>
-                    </td>
-
-                    <td style={tdCenter}>
-                      {item.price.toLocaleString("vi-VN")} đ
-                    </td>
-
-                    <td style={tdCenter}>
-                      <input
-                        type="number"
-                        min="1"
-                        value={
-                          localQuantities[item.id] !== undefined
-                            ? localQuantities[item.id]
-                            : item.quantity
-                        }
-                        onChange={(e) =>
-                          handleQuantityChange(item.id, e.target.value)
-                        }
-                        onBlur={() => handleQuantityBlur(item)}
-                        onKeyDown={handleKeyDown}
-                        style={qtyInput}
-                      />
-                    </td>
-
-                    <td style={{ ...tdCenter, color: "#d32f2f", fontWeight: "bold" }}>
-                      {(item.price * item.quantity).toLocaleString("vi-VN")} đ
-                    </td>
-
-                    <td style={tdCenter}>
-                      <button style={removeBtn} onClick={() => handleRemoveItem(item)}>
-                        Xóa
-                      </button>
-                    </td>
+        {cart.length === 0 ? (
+          <h3 style={{ textAlign: "center", marginTop: 100 }}>
+            Giỏ hàng trống
+          </h3>
+        ) : (
+          <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: 30 }}>
+            
+            {/* TABLE */}
+            <div className="card">
+              <table style={{ width: "100%" }}>
+                <thead>
+                  <tr>
+                    <th>Sản phẩm</th>
+                    <th style={{ textAlign: "center" }}>Giá</th>
+                    <th style={{ textAlign: "center" }}>SL</th>
+                    <th style={{ textAlign: "center" }}>Tổng</th>
+                    <th></th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
 
-          {/* SUMMARY */}
-          <div style={card}>
-            <h3>Tổng đơn hàng</h3>
+                <tbody>
+                  {cart.map((item) => (
+                    <tr key={item.id}>
+                      <td style={{ display: "flex", gap: 10, padding: 10 }}>
+                        <img src={item.image} style={{ width: 60 }} />
+                        <div>
+                          <strong>{item.name}</strong>
+                          <p style={{ margin: 0 }}>{item.category}</p>
+                        </div>
+                      </td>
 
-            <div style={{ display: "flex", justifyContent: "space-between", margin: "15px 0" }}>
-              <span>Tổng tiền:</span>
-              <strong>{totalAmount.toLocaleString("vi-VN")} đ</strong>
+                      <td style={{ textAlign: "center" }}>
+                        {item.price.toLocaleString("vi-VN")} đ
+                      </td>
+
+                      <td style={{ textAlign: "center" }}>
+                        <input
+                          type="number"
+                          min="1"
+                          value={localQuantities[item.id] ?? item.quantity}
+                          onChange={(e) =>
+                            handleQuantityChange(item.id, e.target.value)
+                          }
+                          onBlur={() => handleQuantityBlur(item)}
+                          style={{ width: 60 }}
+                        />
+                      </td>
+
+                      <td style={{ textAlign: "center", color: "red", fontWeight: "bold" }}>
+                        {(item.price * item.quantity).toLocaleString("vi-VN")} đ
+                      </td>
+
+                      <td style={{ textAlign: "center" }}>
+                        <button
+                          className="btn btn-text"
+                          onClick={() => handleRemoveItem(item)}
+                        >
+                          Xóa
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
 
-            <button style={greenBtn} onClick={() => navigate("/checkout")}>
-              Thanh toán
-            </button>
+            {/* SUMMARY */}
+            <div className="card">
+              <h3>Tổng đơn</h3>
 
-            <button style={redBtn} onClick={clearCart}>
-              Xóa tất cả
-            </button>
+              <p style={{ fontSize: 20, fontWeight: "bold" }}>
+                {totalAmount.toLocaleString("vi-VN")} đ
+              </p>
+
+              <button
+                className="btn btn-primary"
+                style={{ width: "100%", marginBottom: 10 }}
+                onClick={() => navigate("/checkout")}
+              >
+                Thanh toán
+              </button>
+
+              <button
+                className="btn btn-danger"
+                style={{ width: "100%" }}
+                onClick={clearCart}
+              >
+                Xóa tất cả
+              </button>
+            </div>
           </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </CustomerLayout>
   );
-};
-
-/* ===== STYLE ===== */
-
-const headerStyle = {
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-  marginBottom: "30px",
-};
-
-const card = {
-  background: "#fff",
-  padding: "20px",
-  borderRadius: "10px",
-  border: "1px solid #eee",
-};
-
-const th = { padding: "12px", textAlign: "left" as const };
-const thCenter = { ...th, textAlign: "center" as const };
-
-const tdCenter = { padding: "12px", textAlign: "center" as const };
-const tdFlex = {
-  padding: "12px",
-  display: "flex",
-  alignItems: "center",
-  gap: "10px",
-};
-
-const qtyInput = {
-  width: "70px",
-  padding: "6px",
-  textAlign: "center" as const,
-};
-
-const blueBtn = {
-  padding: "10px 16px",
-  background: "#007bff",
-  color: "#fff",
-  border: "none",
-  borderRadius: "6px",
-  cursor: "pointer",
-};
-
-const greenBtn = {
-  width: "100%",
-  padding: "14px",
-  background: "#28a745",
-  color: "#fff",
-  border: "none",
-  borderRadius: "6px",
-  cursor: "pointer",
-  marginBottom: "10px",
-};
-
-const redBtn = {
-  width: "100%",
-  padding: "12px",
-  background: "#dc3545",
-  color: "#fff",
-  border: "none",
-  borderRadius: "6px",
-  cursor: "pointer",
-};
-
-const removeBtn = {
-  background: "none",
-  border: "none",
-  color: "red",
-  cursor: "pointer",
-  fontWeight: "bold",
 };
 
 export default CartPage;
