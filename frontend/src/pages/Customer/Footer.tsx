@@ -34,7 +34,7 @@ const Footer: React.FC = () => {
         </div>
 
         <div className="footer-col">
-          <h4>Liên kết</h4>
+          <h4>Thương hiệu hợp tác</h4>
           <img 
             src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Bandai_Namco_Holdings_logo.svg/3840px-Bandai_Namco_Holdings_logo.svg.png" className="footer-badge"
           />
