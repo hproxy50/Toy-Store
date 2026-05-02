@@ -1,0 +1,107 @@
+.footer-container {
+  background-color: #ffffff;
+  color: #333;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  border-top: 1px solid #eaeaea;
+  padding-top: 40px;
+  margin-top: 50px;
+}
+
+.footer-top {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 30px;
+  padding: 0 20px 40px 20px;
+}
+
+.footer-col {
+  flex: 1;
+  min-width: 220px;
+}
+
+.footer-col h4 {
+  font-size: 1rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  color: #111;
+}
+
+.footer-col p {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin: 0 0 10px 0;
+  color: #444;
+}
+
+.footer-col ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-col ul li {
+  margin-bottom: 12px;
+  border-bottom: 1px solid #f5f5f5;
+  padding-bottom: 8px;
+}
+
+.footer-col ul li:last-child {
+  border-bottom: none;
+}
+
+.footer-col ul li a {
+  text-decoration: none;
+  color: #555;
+  font-size: 0.9rem;
+  transition: color 0.2s;
+}
+
+.footer-col ul li a:hover {
+  color: #2563eb;
+}
+
+.footer-badge {
+  max-width: 150px;
+  margin-bottom: 10px;
+}
+
+.footer-bottom {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-top: 1px solid #eaeaea;
+}
+
+.footer-bottom-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.footer-bottom-text p {
+  margin: 5px 0;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.footer-bct-logo {
+  max-width: 130px;
+}
+
+/* Responsive cho điện thoại */
+@media (max-width: 768px) {
+  .footer-top {
+    flex-direction: column;
+  }
+  .footer-bottom-content {
+    flex-direction: column;
+    text-align: center;
+  }
+}

@@ -14,28 +14,39 @@ import AdminRoute from "./components/AdminRoute";
 import AdminLayout from "./components/AdminLayout";
 import OrderManager from './pages/Admin/OrderManager';
 
+import Footer from "./pages/Customer/Footer"; // Import Footer component
+
 function App() {
   return (
     <CartProvider>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+      <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+        
+        <main style={{ flex: 1 }}>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
 
-        {/* Customer Routes */}
-        <Route path="/" element={<ProductPage />} />
-        <Route path="/product/:id" element={<ProductDetail />} />
-        <Route path="/cart" element={<CartPage />} />
-        <Route path="/checkout" element={<CheckoutPage />} />
-        {/* Admin Routes */}
-        <Route element={<AdminRoute />}>
-          <Route path="/admin" element={<AdminLayout />}>
-            <Route index element={<Navigate to="products" replace />} />
-            <Route path="products" element={<ProductManager />} />
-            <Route path="users" element={<UserManager />} />
-            <Route path="orders" element={<OrderManager />} />
-          </Route>
-        </Route>
-      </Routes>
+            {/* Customer Routes */}
+            <Route path="/" element={<ProductPage />} />
+            <Route path="/product/:id" element={<ProductDetail />} />
+            <Route path="/cart" element={<CartPage />} />
+            <Route path="/checkout" element={<CheckoutPage />} />
+            
+            {/* Admin Routes */}
+            <Route element={<AdminRoute />}>
+              <Route path="/admin" element={<AdminLayout />}>
+                <Route index element={<Navigate to="products" replace />} />
+                <Route path="products" element={<ProductManager />} />
+                <Route path="users" element={<UserManager />} />
+                <Route path="orders" element={<OrderManager />} />
+              </Route>
+            </Route>
+          </Routes>
+        </main>
+
+        <Footer />
+        
+      </div>
     </CartProvider>
   );
 }
