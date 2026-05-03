@@ -1,7 +1,7 @@
 /* Bao bọc toàn trang để set ảnh nền */
 .product-detail-page-wrapper {
   background-image: url('https://images7.alphacoders.com/321/thumb-1920-321487.jpg');
-  background-size: cover;
+  background-size: auto;
   background-position: center;
   background-attachment: fixed;
   min-height: 100vh;
