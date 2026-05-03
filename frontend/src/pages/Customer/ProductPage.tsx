@@ -21,7 +21,6 @@ const ProductPage = () => {
   const location = useLocation();
   const { addToCart } = useCart();
 
-  // Lấy từ khóa tìm kiếm từ URL do Header truyền sang
   const queryParams = new URLSearchParams(location.search);
   const searchTerm = queryParams.get("search") || "";
 
@@ -36,7 +35,6 @@ const ProductPage = () => {
   };
 
   useEffect(() => {
-    // Kiểm tra quyền truy cập trang khách hàng
     const userStr = localStorage.getItem("currentUser");
 
     if (!userStr) {
@@ -114,61 +112,80 @@ const ProductPage = () => {
 
   return (
     <div className="product-page-container">
-      {/* Search Input đã chuyển lên Header, chỉ giữ lại Sort Select ở góc phải */}
-      <div className="search-sort-bar" style={{ justifyContent: "flex-end" }}>
-        <select
-          value={sortOrder}
-          onChange={(e) => setSortOrder(e.target.value)}
-          className="sort-select"
-        >
-          <option value="">Sắp xếp mặc định</option>
-          <option value="price_asc">Giá: thấp đến cao</option>
-          <option value="price_desc">Giá: cao đến thấp</option>
-          <option value="name_asc">Tên: Từ A đến Z</option>
-          <option value="name_desc">Tên: Từ Z đến A</option>
-        </select>
-      </div>
-
-      {availableCategories.length > 0 && (
-        <div className="category-filter-container">
-          <strong className="category-title">Lọc theo danh mục:</strong>
-          <div className="category-list">
-            {availableCategories.map((category) => (
-              <label key={category} className="category-label">
-                <input
-                  type="checkbox"
-                  className="category-checkbox"
-                  checked={selectedCategories.includes(category)}
-                  onChange={() => handleCategoryToggle(category)}
-                />
-                {category}
-              </label>
-            ))}
-          </div>
+      
+      <div className="filter-sort-bar">
+        <div className="filter-left">
+          <h2 className="filter-title">ĐỒ CHƠI NỔI BẬT</h2>
+          
+          {availableCategories.length > 0 && (
+            <div className="category-links">
+              {availableCategories.map((category, index) => (
+                <React.Fragment key={category}>
+                  <span
+                    className={`category-link ${selectedCategories.includes(category) ? "active" : ""}`}
+                    onClick={() => handleCategoryToggle(category)}
+                  >
+                    {category}
+                  </span>
+                  {index < availableCategories.length - 1 && (
+                    <span className="separator">|</span>
+                  )}
+                </React.Fragment>
+              ))}
+            </div>
+          )}
         </div>
-      )}
+
+        <div className="filter-right">
+          <select
+            value={sortOrder}
+            onChange={(e) => setSortOrder(e.target.value)}
+            className="sort-select"
+          >
+            <option value="">Lọc theo giá</option>
+            <option value="price_asc">Giá: thấp đến cao</option>
+            <option value="price_desc">Giá: cao đến thấp</option>
+            <option value="name_asc">Tên: Từ A đến Z</option>
+            <option value="name_desc">Tên: Từ Z đến A</option>
+          </select>
+        </div>
+      </div>
 
       <div className="product-list">
         {filteredAndSortedToys.map((toy) => (
-          <div key={toy.id} className={`product-card ${toy.quantity <= 0 ? 'out-of-stock' : ''}`}>
+          <div key={toy.id} className="product-card">
+            
+            {/* Wrapper chứa ảnh và nhãn trạng thái đè lên ảnh */}
             <div className="product-image-wrapper" onClick={() => navigate(`/product/${toy.id}`)}>
               <img src={toy.image} alt={toy.name} className="product-image clickable" />
-              {toy.quantity <= 0 && <div className="out-of-stock-overlay">Hết hàng</div>}
+              
+              <div className={`stock-badge ${toy.quantity > 0 ? "in-stock" : "out-stock"}`}>
+                <i className="fa-solid fa-bolt"></i> 
+                {toy.quantity > 0 ? "Đang sẵn hàng" : "Hết hàng"}
+              </div>
             </div>
-            <h3 className="product-name clickable" onClick={() => navigate(`/product/${toy.id}`)}>
-              {toy.name}
-            </h3>
-            <p className="product-category">Danh mục: {toy.category}</p>
-            <p className="product-price">{toy.price.toLocaleString("vi-VN")} VNĐ</p>
-            <p className="product-quantity">Kho: {toy.quantity}</p>
 
-            <button
-              className="add-to-cart-btn"
-              onClick={() => handleAddToCart(toy)}
-              disabled={toy.quantity <= 0}
-            >
-              {toy.quantity > 0 ? "Thêm vào giỏ hàng" : "Hết hàng"}
-            </button>
+            {/* Thông tin sản phẩm */}
+            <div className="product-info">
+              <h3 className="product-name clickable" onClick={() => navigate(`/product/${toy.id}`)}>
+                {toy.name}
+              </h3>
+              
+              <p className="product-price">
+                {toy.price.toLocaleString("vi-VN")} <u>đ</u>
+              </p>
+
+              <p className="product-category">{toy.category}</p>
+
+              <button
+                className="add-to-cart-btn"
+                onClick={() => handleAddToCart(toy)}
+                disabled={toy.quantity <= 0}
+              >
+                {toy.quantity > 0 ? "Thêm vào giỏ hàng" : "Hết hàng"}
+              </button>
+            </div>
+            
           </div>
         ))}
 
