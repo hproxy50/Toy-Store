@@ -15,6 +15,7 @@ interface Toy {
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
   const [toy, setToy] = useState<Toy | null>(null);
+  const [quantityToAdd, setQuantityToAdd] = useState<number>(1);
   const navigate = useNavigate();
   const { addToCart } = useCart();
 
@@ -44,66 +45,118 @@ const ProductDetail = () => {
     fetchToy();
   }, [id, navigate]);
 
+  const handleDecrease = () => {
+    setQuantityToAdd((prev) => (prev > 1 ? prev - 1 : 1));
+  };
+
+  const handleIncrease = () => {
+    if (toy && quantityToAdd < toy.quantity) {
+      setQuantityToAdd((prev) => prev + 1);
+    }
+  };
+
   const handleAddToCart = async () => {
-    if (!toy || toy.quantity <= 0) return;
+    if (!toy || toy.quantity <= 0 || quantityToAdd <= 0) return;
 
     try {
+      // Cập nhật số lượng trên DB dựa theo số lượng khách muốn mua
       await fetch(`http://localhost:3000/toys/${toy.id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          quantity: toy.quantity - 1
+          quantity: toy.quantity - quantityToAdd
         }),
       });
 
+      // Bạn có thể cần điều chỉnh hàm addToCart trong context của bạn 
+      // để nhận số lượng (quantityToAdd) nếu context hỗ trợ.
       addToCart({
         id: toy.id,
         name: toy.name,
         price: toy.price,
         category: toy.category,
         image: toy.image,
-        stock: toy.quantity - 1,
+        stock: toy.quantity - quantityToAdd,
       });
 
-      setToy(prev => prev ? { ...prev, quantity: prev.quantity - 1 } : prev);
+      setToy(prev => prev ? { ...prev, quantity: prev.quantity - quantityToAdd } : prev);
+      setQuantityToAdd(1); // Reset lại số lượng sau khi thêm
 
-      alert(`${toy.name} đã được thêm vào giỏ hàng!`);
+      alert(`Đã thêm ${quantityToAdd} sản phẩm "${toy.name}" vào giỏ hàng!`);
     } catch (error) {
       console.error(error);
     }
   };
 
   if (!toy) {
-    return <div className="loading-text">Đang tải dữ liệu sản phẩm...</div>;
+    return <div className="loading-text-detail">Đang tải dữ liệu sản phẩm...</div>;
   }
 
   return (
-    <div className="product-detail-container">
-      <button className="back-btn" onClick={() => navigate(-1)}>← Quay lại</button>
-      
-      <div className={`product-detail-content ${toy.quantity <= 0 ? 'out-of-stock-detail' : ''}`}>
-        <div className="product-detail-image-wrapper">
-          <img 
-            src={toy.image} 
-            alt={toy.name} 
-            className="product-detail-image" 
-          />
-          {toy.quantity <= 0 && <div className="out-of-stock-overlay-detail">Hết hàng</div>}
+    <div className="product-detail-page-wrapper">
+      <div className="product-detail-container">
+        
+        {/* Breadcrumb giống ảnh mẫu */}
+        <div className="breadcrumb">
+          <span className="breadcrumb-link" onClick={() => navigate('/')}>TRANG CHỦ</span>
+          <span className="breadcrumb-separator">/</span>
+          <span className="breadcrumb-current">{toy.category.toUpperCase()}</span>
         </div>
         
-        <div className="product-detail-info">
-          <h2 className="product-detail-name">{toy.name}</h2>
-          <p className="product-detail-category">Danh mục: {toy.category}</p>
-          <p className="product-detail-price">{toy.price.toLocaleString("vi-VN")} VNĐ</p>
-          <p className="product-detail-quantity">Còn lại: {toy.quantity} sản phẩm</p>
+        <div className="product-detail-content">
+          {/* Cột trái: Ảnh sản phẩm */}
+          <div className="product-detail-image-wrapper">
+            <img 
+              src={toy.image} 
+              alt={toy.name} 
+              className="product-detail-image" 
+            />
+            {toy.quantity <= 0 && <div className="out-of-stock-overlay-detail">HẾT HÀNG</div>}
+          </div>
           
-          <button 
-            className="add-to-cart-btn" 
-            onClick={handleAddToCart}
-            disabled={toy.quantity <= 0}
-          >
-            {toy.quantity > 0 ? "Thêm vào giỏ hàng" : "Hết hàng"}
-          </button>
+          {/* Cột phải: Thông tin sản phẩm */}
+          <div className="product-detail-info">
+            <h1 className="product-detail-name">{toy.name}</h1>
+            
+            <div className="product-detail-price">
+              {toy.price.toLocaleString("vi-VN")} <span>₫</span>
+            </div>
+            
+            <div className="product-detail-desc">
+              <p>Danh mục: <strong>{toy.category}</strong></p>
+              {/* Bạn có thể thêm mô tả chi tiết của sản phẩm ở đây nếu có trong DB */}
+            </div>
+            
+            <div className="product-detail-stock">
+              {toy.quantity > 0 ? `Còn ${toy.quantity} trong kho` : "Đã hết hàng"}
+            </div>
+            
+            {/* Khu vực chọn số lượng và Nút Mua */}
+            <div className="action-row">
+              <div className="quantity-selector">
+                <button className="qty-btn" onClick={handleDecrease} disabled={toy.quantity <= 0}>-</button>
+                <input 
+                  type="text" 
+                  className="qty-input" 
+                  value={toy.quantity > 0 ? quantityToAdd : 0} 
+                  readOnly 
+                />
+                <button className="qty-btn" onClick={handleIncrease} disabled={toy.quantity <= 0}>+</button>
+              </div>
+              
+              <button 
+                className="add-to-cart-btn-red" 
+                onClick={handleAddToCart}
+                disabled={toy.quantity <= 0}
+              >
+                {toy.quantity > 0 ? "THÊM VÀO GIỎ HÀNG" : "HẾT HÀNG"}
+              </button>
+            </div>
+
+            <button className="back-btn" onClick={() => navigate(-1)}>
+              <i className="fa-solid fa-arrow-left"></i> Quay lại cửa hàng
+            </button>
+          </div>
         </div>
       </div>
     </div>

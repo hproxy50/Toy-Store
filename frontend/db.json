@@ -2,7 +2,7 @@
   "users": [
     {
       "id": "admin_1",
-      "email": "admin@gmail.com",
+      "email": "admin",
       "password": "12345",
       "role": "admin",
       "name": "Quản trị viên"

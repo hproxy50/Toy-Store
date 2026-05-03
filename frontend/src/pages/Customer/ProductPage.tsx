@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 import "../../Css/Customer/ProductPage.css";
-
 
 interface Toy {
   id: string;
@@ -13,52 +12,18 @@ interface Toy {
   quantity: number;
 }
 
-interface User {
-  id: string;
-  email: string;
-  name: string;
-  role: string;
-  address?: string;
-  phone?: string;
-}
-
-interface OrderItem {
-  id: string;
-  name: string;
-  price: number;
-  quantity: number;
-  image?: string;
-}
-
-interface Order {
-  id: string;
-  userId: string;
-  totalAmount: number;
-  status: string;
-  createdAt: string;
-  items: OrderItem[];
-}
-
 const ProductPage = () => {
   const [toys, setToys] = useState<Toy[]>([]);
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
-
-  const [searchTerm, setSearchTerm] = useState("");
   const [sortOrder, setSortOrder] = useState("");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
-  const [isHistoryOpen, setIsHistoryOpen] = useState(false);
-  const [orderHistory, setOrderHistory] = useState<Order[]>([]);
-
-  const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const [profileData, setProfileData] = useState({
-    name: "",
-    address: "",
-    phone: "",
-  });
-
   const navigate = useNavigate();
+  const location = useLocation();
   const { addToCart } = useCart();
+
+  // Lấy từ khóa tìm kiếm từ URL do Header truyền sang
+  const queryParams = new URLSearchParams(location.search);
+  const searchTerm = queryParams.get("search") || "";
 
   const fetchToys = async () => {
     try {
@@ -71,6 +36,7 @@ const ProductPage = () => {
   };
 
   useEffect(() => {
+    // Kiểm tra quyền truy cập trang khách hàng
     const userStr = localStorage.getItem("currentUser");
 
     if (!userStr) {
@@ -85,37 +51,8 @@ const ProductPage = () => {
       return;
     }
 
-    setCurrentUser(user);
     fetchToys();
   }, [navigate]);
-
-  useEffect(() => {
-    if (isHistoryOpen && currentUser) {
-      const fetchHistory = async () => {
-        try {
-          const res = await fetch(`http://localhost:3000/orders?userId=${currentUser.id}`);
-          const data = await res.json();
-          const orders = Array.isArray(data) ? data : data.data || [];
-
-          orders.sort(
-            (a: Order, b: Order) =>
-              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-          );
-
-          setOrderHistory(orders);
-        } catch (error) {
-          console.error(error);
-        }
-      };
-      fetchHistory();
-    }
-  }, [isHistoryOpen, currentUser]);
-
-  const handleLogout = () => {
-    localStorage.removeItem("currentUser");
-    setCurrentUser(null);
-    navigate("/login");
-  };
 
   const handleAddToCart = async (toy: Toy) => {
     if (toy.quantity <= 0) return;
@@ -175,96 +112,10 @@ const ProductPage = () => {
       return 0;
     });
 
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("vi-VN", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  };
-
-  const getStatusClass = (status: string) => {
-    switch (status) {
-      case "Đã giao":
-        return "status-delivered";
-      case "Đã xử lý":
-        return "status-processing";
-      default:
-        return "status-pending";
-    }
-  };
-
-  const openProfileModal = () => {
-    if (currentUser) {
-      setProfileData({
-        name: currentUser.name || "",
-        address: currentUser.address || "",
-        phone: currentUser.phone || "",
-      });
-      setIsProfileOpen(true);
-    }
-  };
-
-  const handleUpdateProfile = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!currentUser) return;
-
-    try {
-      const response = await fetch(`http://localhost:3000/users/${currentUser.id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(profileData),
-      });
-
-      if (response.ok) {
-        const updatedUser = await response.json();
-        setCurrentUser(updatedUser);
-        localStorage.setItem("currentUser", JSON.stringify(updatedUser));
-        alert("Cập nhật thông tin cá nhân thành công!");
-        setIsProfileOpen(false);
-      } else {
-        alert("Có lỗi xảy ra, vui lòng thử lại.");
-      }
-    } catch (error) {
-      console.error(error);
-      alert("Lỗi kết nối máy chủ.");
-    }
-  };
-
   return (
     <div className="product-page-container">
-      <div className="header">
-        <h2>Cửa Hàng Đồ Chơi</h2>
-        {currentUser && (
-          <div className="user-info">
-            <div className="user-profile-btn" onClick={openProfileModal} title="Chỉnh sửa thông tin cá nhân">
-              <i className="fa-regular fa-user user-icon"></i>
-              <span>Xin chào, <strong>{currentUser.name}</strong>!</span>
-            </div>
-
-            <i
-              className="fa-solid fa-clock-rotate-left history-icon"
-              title="Lịch sử đơn hàng"
-              onClick={() => setIsHistoryOpen(true)}
-            ></i>
-
-            <a href="/cart" className="cart-icon">🛒</a>
-            <button className="logout-btn" onClick={handleLogout}>Đăng Xuất</button>
-          </div>
-        )}
-      </div>
-
-      <div className="search-sort-bar">
-        <input
-          type="text"
-          placeholder="🔍 Tìm kiếm đồ chơi..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="search-input"
-        />
+      {/* Search Input đã chuyển lên Header, chỉ giữ lại Sort Select ở góc phải */}
+      <div className="search-sort-bar" style={{ justifyContent: "flex-end" }}>
         <select
           value={sortOrder}
           onChange={(e) => setSortOrder(e.target.value)}
@@ -326,106 +177,6 @@ const ProductPage = () => {
           <p className="loading-text no-results">Không tìm thấy sản phẩm nào phù hợp!</p>
         )}
       </div>
-
-      {isHistoryOpen && (
-        <div className="modal-overlay">
-          <div className="modal-content modal-history">
-            <button className="modal-close-btn" onClick={() => setIsHistoryOpen(false)}>&times;</button>
-            <h2 className="modal-title">Lịch sử đặt hàng của bạn</h2>
-
-            {orderHistory.length === 0 ? (
-              <p className="modal-empty-text">Bạn chưa có đơn hàng nào.</p>
-            ) : (
-              <div className="order-list">
-                {orderHistory.map((order) => (
-                  <div key={order.id} className="order-card">
-                    <div className="order-header">
-                      <div className="order-info">
-                        <span className="order-id">Mã đơn: #{order.id}</span>
-                        <span className="order-date">Ngày đặt: {formatDate(order.createdAt)}</span>
-                      </div>
-                      <span className={`order-status ${getStatusClass(order.status)}`}>
-                        {order.status}
-                      </span>
-                    </div>
-
-                    <div className="order-items-container">
-                      {order.items.map((item, index) => (
-                        <div key={index} className="order-item">
-                          {item.image ? (
-                            <img src={item.image} alt={item.name} className="order-item-img" />
-                          ) : (
-                            <div className="order-item-placeholder"></div>
-                          )}
-                          <div className="order-item-details">
-                            <div className="order-item-name">{item.name}</div>
-                            <div className="order-item-qty">x{item.quantity}</div>
-                          </div>
-                          <div className="order-item-price">
-                            {(item.price * item.quantity).toLocaleString("vi-VN")} đ
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                    <div className="order-footer">
-                      <span className="order-total-label">Thành tiền: </span>
-                      <strong className="order-total-price">
-                        {order.totalAmount.toLocaleString("vi-VN")} đ
-                      </strong>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-
-      {isProfileOpen && (
-        <div className="modal-overlay">
-          <div className="modal-content modal-profile">
-            <button className="modal-close-btn" onClick={() => setIsProfileOpen(false)}>&times;</button>
-            <h2 className="modal-title">Thông Tin Cá Nhân</h2>
-
-            <form onSubmit={handleUpdateProfile}>
-              <div className="form-group">
-                <label className="form-label">Họ và tên:</label>
-                <input
-                  type="text"
-                  required
-                  value={profileData.name}
-                  onChange={(e) => setProfileData({ ...profileData, name: e.target.value })}
-                  className="form-input"
-                />
-              </div>
-
-              <div className="form-group">
-                <label className="form-label">Số điện thoại:</label>
-                <input
-                  type="tel"
-                  required
-                  value={profileData.phone}
-                  onChange={(e) => setProfileData({ ...profileData, phone: e.target.value })}
-                  className="form-input"
-                />
-              </div>
-
-              <div className="form-group">
-                <label className="form-label">Địa chỉ giao hàng mặc định:</label>
-                <input
-                  type="text"
-                  required
-                  value={profileData.address}
-                  onChange={(e) => setProfileData({ ...profileData, address: e.target.value })}
-                  className="form-input"
-                />
-              </div>
-
-              <button type="submit" className="submit-btn">Lưu Thay Đổi</button>
-            </form>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
