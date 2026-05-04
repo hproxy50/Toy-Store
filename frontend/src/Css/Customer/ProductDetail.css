@@ -1,4 +1,4 @@
-/* Bao bọc toàn trang để set ảnh nền */
+
 .product-detail-page-wrapper {
   background-image: url('https://images7.alphacoders.com/321/thumb-1920-321487.jpg');
   background-size: auto;
@@ -12,11 +12,11 @@
   font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
-/* Container chính chứa content */
+
 .product-detail-container {
   max-width: 1100px;
   width: 100%;
-  background-color: rgba(15, 15, 15, 0.9); /* Nền đen trong suốt để nhìn thấy mờ mờ ảnh nền */
+  background-color: rgba(15, 15, 15, 0.9); 
   border-radius: 12px;
   padding: 30px 40px 50px 40px;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
@@ -24,7 +24,7 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* Breadcrumb (Đường dẫn TRANG CHỦ / DANH MỤC) */
+
 .breadcrumb {
   font-size: 13px;
   color: #a0a0a0;
@@ -50,16 +50,16 @@
   font-weight: 500;
 }
 
-/* Bố cục chia 2 cột */
+
 .product-detail-content {
   display: flex;
   gap: 50px;
   align-items: flex-start;
 }
 
-/* CỘT TRÁI: Khu vực ảnh */
+
 .product-detail-image-wrapper {
-  flex: 0 0 40%; /* Chiếm 40% chiều rộng */
+  flex: 0 0 40%; 
   position: relative;
   border-radius: 8px;
   overflow: hidden;
@@ -88,7 +88,7 @@
   letter-spacing: 2px;
 }
 
-/* CỘT PHẢI: Thông tin */
+
 .product-detail-info {
   flex: 1;
   display: flex;
@@ -130,15 +130,14 @@
   color: #ffffff;
 }
 
-/* Tồn kho (Màu xanh lá) */
+
 .product-detail-stock {
   font-size: 14px;
-  color: #4caf50; /* Xanh lá giống ảnh */
+  color: #4caf50; 
   font-weight: 600;
   margin-bottom: 15px;
 }
 
-/* Hàng chứa Input số lượng và Nút Mua */
 .action-row {
   display: flex;
   align-items: center;
@@ -146,7 +145,7 @@
   margin-bottom: 40px;
 }
 
-/* Bộ chọn số lượng */
+
 .quantity-selector {
   display: flex;
   align-items: center;
@@ -190,15 +189,15 @@
   outline: none;
 }
 
-/* Nút thêm vào giỏ hàng ĐỎ */
+
 .add-to-cart-btn-red {
-  background-color: #d32f2f; /* Đỏ đô */
+  background-color: #d32f2f;
   color: #ffffff;
   border: none;
   padding: 12px 25px;
   font-size: 15px;
   font-weight: 700;
-  border-radius: 25px; /* Bo tròn mạnh */
+  border-radius: 25px;
   cursor: pointer;
   letter-spacing: 0.5px;
   transition: background-color 0.3s, transform 0.1s;
@@ -220,7 +219,7 @@
   box-shadow: none;
 }
 
-/* Nút quay lại */
+
 .back-btn {
   background: transparent;
   color: #a0a0a0;
@@ -247,7 +246,7 @@
   margin-top: 100px;
 }
 
-/* Responsive */
+
 @media (max-width: 850px) {
   .product-detail-content {
     flex-direction: column;

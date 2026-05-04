@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import "../../Css/AuthCss/Register.css";
 
 const Register = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
     name: "",
-    address: "", // Thêm trường địa chỉ
-    phone: "",   // Thêm trường số điện thoại
+    address: "",
+    phone: "",
   });
   const navigate = useNavigate();
 
@@ -21,7 +22,7 @@ const Register = () => {
 
     try {
       const checkRes = await fetch(
-        `http://localhost:3000/users?email=${formData.email}`,
+        `http://localhost:3000/users?email=${formData.email}`
       );
       const existUser = await checkRes.json();
 
@@ -44,61 +45,80 @@ const Register = () => {
   };
 
   return (
-    <div style={{ padding: "20px", maxWidth: "400px", margin: "0 auto" }}>
-      <h2>Đăng Ký Khách Hàng</h2>
-      <form onSubmit={handleRegister}>
-        <input
-          type="text"
-          placeholder="Họ và tên của bạn"
-          required
-          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-          style={{ width: "100%", marginBottom: "10px", padding: "8px" }}
-        />
-        <input
-          type="text"
-          placeholder="Tên tài khoản(email)"
-          required
-          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-          style={{ width: "100%", marginBottom: "10px", padding: "8px" }}
-        />
-        <input
-          type="Password"
-          placeholder="Mật khẩu"
-          required
-          onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-          style={{ width: "100%", marginBottom: "10px", padding: "8px" }}
-        />
+    <div className="login-page"> {/* Dùng lại nền ảnh từ Login */}
+      <div className="login-card"> {/* Dùng lại thẻ kính mờ */}
+        <h2 className="login-title">Đăng Ký Khách Hàng</h2>
         
-        <input
-          type="tel"
-          placeholder="Số điện thoại"
-          required
-          onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-          style={{ width: "100%", marginBottom: "10px", padding: "8px" }}
-        />
+        <form className="login-form" onSubmit={handleRegister}>
+          <div className="input-group">
+            <input
+              type="text"
+              placeholder="Họ và tên của bạn"
+              required
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              className="login-input"
+            />
+          </div>
+          
+          <div className="input-group">
+            <input
+              type="text" // Khuyên dùng type="email" ở đây để form tự validate
+              placeholder="Tên tài khoản (Email)"
+              required
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              className="login-input"
+            />
+          </div>
+          
+          <div className="input-group">
+            <input
+              type="password"
+              placeholder="Mật khẩu"
+              required
+              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+              className="login-input"
+            />
+          </div>
+          
+          <div className="input-group">
+            <input
+              type="tel"
+              placeholder="Số điện thoại"
+              required
+              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+              className="login-input"
+            />
+          </div>
 
-        <input
-          type="text"
-          placeholder="Địa chỉ giao hàng mặc định"
-          required
-          onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-          style={{ width: "100%", marginBottom: "10px", padding: "8px" }}
-        />
+          <div className="input-group">
+            <input
+              type="text"
+              placeholder="Địa chỉ giao hàng mặc định"
+              required
+              onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+              className="login-input"
+            />
+          </div>
 
-        <button
-          type="submit"
-          style={{
-            width: "100%",
-            padding: "10px",
-            background: "blue",
-            color: "white",
-            border: "none",
-            cursor: "pointer"
-          }}
-        >
-          Đăng Ký
-        </button>
-      </form>
+          <button type="submit" className="login-button">
+            Đăng Ký
+          </button>
+        </form>
+
+        {/* Thêm link điều hướng ngược lại trang đăng nhập cho chuẩn UX */}
+        <div style={{ textAlign: "center", marginTop: "20px" }}>
+          <span style={{ color: "rgba(255, 255, 255, 0.8)", fontSize: "14px" }}>
+            Đã có tài khoản?{" "}
+          </span>
+          <Link 
+            to="/login" 
+            style={{ color: "#fff", fontWeight: "bold", textDecoration: "none" }}
+          >
+            Đăng nhập ngay
+          </Link>
+        </div>
+
+      </div>
     </div>
   );
 };

@@ -1,13 +1,11 @@
-/* --- BỌC TOÀN BỘ TRANG SẢN PHẨM (CĂN GIỮA, KHỚP VỚI HEADER) --- */
 .product-page-container {
-  max-width: 1200px; /* Có thể chỉnh thành 1240px nếu Header của bạn rộng hơn */
-  margin: 0 auto;    /* Tự động căn giữa 2 bên */
+  max-width: 1200px;
+  margin: 0 auto;
   padding: 20px 10px;
   width: 100%;
   box-sizing: border-box;
 }
 
-/* --- THANH LỌC VÀ SẮP XẾP --- */
 .filter-sort-bar {
   display: flex;
   align-items: center;
@@ -15,7 +13,7 @@
   background-color: transparent;
   padding: 15px 0;
   margin-bottom: 20px;
-  flex-wrap: wrap; 
+  flex-wrap: wrap;
   gap: 15px;
 }
 
@@ -42,19 +40,18 @@
 }
 
 .category-link {
-  color: #288ad6; /* Màu xanh giống trong ảnh */
+  color: #288ad6;
   cursor: pointer;
   font-size: 14px;
   transition: all 0.2s;
 }
 
 .category-link:hover {
-  color: #e30019; /* Đổi màu khi di chuột qua */
+  color: #e30019;
 }
 
-/* Đổi màu và in đậm cho danh mục đang được click chọn */
 .category-link.active {
-  color: #e30019; 
+  color: #e30019;
   font-weight: bold;
 }
 
@@ -90,50 +87,50 @@
   }
 }
 
-/* --- CONTAINER DANH SÁCH SẢN PHẨM --- */
 .product-list {
   display: grid;
-  grid-template-columns: repeat(5, 1fr); /* Hiển thị chính xác 5 cột bằng nhau */
-  border-top: 1px solid #e5e5e5; /* Viền bao ngoài cùng bên trên */
-  border-left: 1px solid #e5e5e5; /* Viền bao ngoài cùng bên trái */
+  grid-template-columns: repeat(5, 1fr);
+  border-top: 1px solid #e5e5e5;
+  border-left: 1px solid #e5e5e5;
   background-color: #fff;
   margin-top: 10px;
 }
 
-/* --- GIAO DIỆN THẺ SẢN PHẨM MỚI --- */
 .product-card {
   background: #fff;
-  border-right: 1px solid #e5e5e5; /* Chỉ lấy viền phải */
-  border-bottom: 1px solid #e5e5e5; /* Chỉ lấy viền dưới */
+  border-right: 1px solid #e5e5e5;
+  border-bottom: 1px solid #e5e5e5;
   padding: 15px;
   position: relative;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  transition:
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
 }
 
 .product-card:hover {
-  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
   transform: translateY(-2px);
-  z-index: 10; /* Quan trọng: Đẩy thẻ lên trên để bóng (shadow) không bị các thẻ khác che mất */
+  z-index: 10;
 }
 
-/* --- ĐIỀU CHỈNH ẢNH SẢN PHẨM --- */
 .product-image-wrapper {
   position: relative;
   text-align: center;
   cursor: pointer;
-  padding-bottom: 15px; 
+  padding-bottom: 15px;
 }
 
 .product-image {
-  width: 100%;
-  height: 200px;
-  object-fit: contain;
+  width: 100% !important;
+  aspect-ratio: 1 / 1 !important;
+  height: auto !important;
+  object-fit: cover !important;
+  border-radius: 4px;
 }
 
-/* NHÃN TRẠNG THÁI (Đang sẵn hàng / Hết hàng) */
 .stock-badge {
   display: inline-flex;
   align-items: center;
@@ -144,20 +141,19 @@
   font-size: 11px;
   font-weight: bold;
   position: absolute;
-  bottom: 0; 
+  bottom: 0;
   left: 0;
   z-index: 2;
 }
 
 .stock-badge.in-stock {
-  background: linear-gradient(90deg, #ff4e00, #ff8a00); /* Màu cam gradient giống ảnh */
+  background: linear-gradient(90deg, #ff4e00, #ff8a00);
 }
 
 .stock-badge.out-stock {
-  background: #888; 
+  background: #888;
 }
 
-/* THÔNG TIN SẢN PHẨM */
 .product-info {
   display: flex;
   flex-direction: column;
@@ -171,7 +167,6 @@
   color: #333;
   margin: 0;
   line-height: 1.4;
-  /* Cắt chữ nếu tên quá dài (giới hạn 2 dòng) */
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -180,7 +175,7 @@
 }
 
 .product-price {
-  color: #d70018; /* Màu đỏ đặc trưng */
+  color: #d70018;
   font-size: 16px;
   font-weight: bold;
   margin: 0;
@@ -197,7 +192,6 @@
   margin: 0;
 }
 
-/* NÚT THÊM VÀO GIỎ HÀNG */
 .add-to-cart-btn {
   margin-top: auto;
   width: 100%;
@@ -220,13 +214,18 @@
   cursor: not-allowed;
 }
 
-/* --- RESPONSIVE CHO CÁC MÀN HÌNH NHỎ HƠN --- */
 @media (max-width: 1200px) {
-  .product-list { grid-template-columns: repeat(4, 1fr); /* Tablet ngang: 4 cột */ }
+  .product-list {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 @media (max-width: 900px) {
-  .product-list { grid-template-columns: repeat(3, 1fr); /* Tablet dọc: 3 cột */ }
+  .product-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 @media (max-width: 600px) {
-  .product-list { grid-template-columns: repeat(2, 1fr); /* Mobile: 2 cột */ }
+  .product-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }

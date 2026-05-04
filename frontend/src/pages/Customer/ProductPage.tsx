@@ -75,8 +75,8 @@ const ProductPage = () => {
 
       setToys((prev) =>
         prev.map((t) =>
-          t.id === toy.id ? { ...t, quantity: t.quantity - 1 } : t
-        )
+          t.id === toy.id ? { ...t, quantity: t.quantity - 1 } : t,
+        ),
       );
 
       alert(`${toy.name} đã được thêm vào giỏ hàng!`);
@@ -85,13 +85,15 @@ const ProductPage = () => {
     }
   };
 
-  const availableCategories = Array.from(new Set(toys.map((toy) => toy.category)));
+  const availableCategories = Array.from(
+    new Set(toys.map((toy) => toy.category)),
+  );
 
   const handleCategoryToggle = (category: string) => {
     setSelectedCategories((prev) =>
       prev.includes(category)
         ? prev.filter((c) => c !== category)
-        : [...prev, category]
+        : [...prev, category],
     );
   };
 
@@ -100,7 +102,7 @@ const ProductPage = () => {
     .filter((toy) =>
       selectedCategories.length === 0
         ? true
-        : selectedCategories.includes(toy.category)
+        : selectedCategories.includes(toy.category),
     )
     .sort((a, b) => {
       if (sortOrder === "price_asc") return a.price - b.price;
@@ -112,11 +114,10 @@ const ProductPage = () => {
 
   return (
     <div className="product-page-container">
-      
       <div className="filter-sort-bar">
         <div className="filter-left">
           <h2 className="filter-title">ĐỒ CHƠI NỔI BẬT</h2>
-          
+
           {availableCategories.length > 0 && (
             <div className="category-links">
               {availableCategories.map((category, index) => (
@@ -154,23 +155,32 @@ const ProductPage = () => {
       <div className="product-list">
         {filteredAndSortedToys.map((toy) => (
           <div key={toy.id} className="product-card">
-            
-            {/* Wrapper chứa ảnh và nhãn trạng thái đè lên ảnh */}
-            <div className="product-image-wrapper" onClick={() => navigate(`/product/${toy.id}`)}>
-              <img src={toy.image} alt={toy.name} className="product-image clickable" />
-              
-              <div className={`stock-badge ${toy.quantity > 0 ? "in-stock" : "out-stock"}`}>
-                <i className="fa-solid fa-bolt"></i> 
+            <div
+              className="product-image-wrapper"
+              onClick={() => navigate(`/product/${toy.id}`)}
+            >
+              <img
+                src={toy.image}
+                alt={toy.name}
+                className="product-image clickable"
+              />
+
+              <div
+                className={`stock-badge ${toy.quantity > 0 ? "in-stock" : "out-stock"}`}
+              >
+                <i className="fa-solid fa-bolt"></i>
                 {toy.quantity > 0 ? "Đang sẵn hàng" : "Hết hàng"}
               </div>
             </div>
 
-            {/* Thông tin sản phẩm */}
             <div className="product-info">
-              <h3 className="product-name clickable" onClick={() => navigate(`/product/${toy.id}`)}>
+              <h3
+                className="product-name clickable"
+                onClick={() => navigate(`/product/${toy.id}`)}
+              >
                 {toy.name}
               </h3>
-              
+
               <p className="product-price">
                 {toy.price.toLocaleString("vi-VN")} <u>đ</u>
               </p>
@@ -185,13 +195,16 @@ const ProductPage = () => {
                 {toy.quantity > 0 ? "Thêm vào giỏ hàng" : "Hết hàng"}
               </button>
             </div>
-            
           </div>
         ))}
 
-        {toys.length === 0 && <p className="loading-text">Đang tải dữ liệu sản phẩm...</p>}
+        {toys.length === 0 && (
+          <p className="loading-text">Đang tải dữ liệu sản phẩm...</p>
+        )}
         {toys.length > 0 && filteredAndSortedToys.length === 0 && (
-          <p className="loading-text no-results">Không tìm thấy sản phẩm nào phù hợp!</p>
+          <p className="loading-text no-results">
+            Không tìm thấy sản phẩm nào phù hợp!
+          </p>
         )}
       </div>
     </div>

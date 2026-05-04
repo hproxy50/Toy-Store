@@ -80,7 +80,6 @@ const AdminLayout = () => {
           </div>
         </header>
 
-        {/* Khu vực hiển thị component con */}
         <div className="admin-content-wrapper">
           <div className="admin-content">
             <Outlet />

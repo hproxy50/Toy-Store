@@ -59,17 +59,14 @@ const ProductDetail = () => {
     if (!toy || toy.quantity <= 0 || quantityToAdd <= 0) return;
 
     try {
-      // Cập nhật số lượng trên DB dựa theo số lượng khách muốn mua
       await fetch(`http://localhost:3000/toys/${toy.id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          quantity: toy.quantity - quantityToAdd
+          quantity: toy.quantity - quantityToAdd,
         }),
       });
 
-      // Bạn có thể cần điều chỉnh hàm addToCart trong context của bạn 
-      // để nhận số lượng (quantityToAdd) nếu context hỗ trợ.
       addToCart({
         id: toy.id,
         name: toy.name,
@@ -79,8 +76,10 @@ const ProductDetail = () => {
         stock: toy.quantity - quantityToAdd,
       });
 
-      setToy(prev => prev ? { ...prev, quantity: prev.quantity - quantityToAdd } : prev);
-      setQuantityToAdd(1); // Reset lại số lượng sau khi thêm
+      setToy((prev) =>
+        prev ? { ...prev, quantity: prev.quantity - quantityToAdd } : prev,
+      );
+      setQuantityToAdd(1);
 
       alert(`Đã thêm ${quantityToAdd} sản phẩm "${toy.name}" vào giỏ hàng!`);
     } catch (error) {
@@ -89,63 +88,81 @@ const ProductDetail = () => {
   };
 
   if (!toy) {
-    return <div className="loading-text-detail">Đang tải dữ liệu sản phẩm...</div>;
+    return (
+      <div className="loading-text-detail">Đang tải dữ liệu sản phẩm...</div>
+    );
   }
 
   return (
     <div className="product-detail-page-wrapper">
       <div className="product-detail-container">
-        
-        {/* Breadcrumb giống ảnh mẫu */}
         <div className="breadcrumb">
-          <span className="breadcrumb-link" onClick={() => navigate('/')}>TRANG CHỦ</span>
+          <span className="breadcrumb-link" onClick={() => navigate("/")}>
+            TRANG CHỦ
+          </span>
           <span className="breadcrumb-separator">/</span>
-          <span className="breadcrumb-current">{toy.category.toUpperCase()}</span>
+          <span className="breadcrumb-current">
+            {toy.category.toUpperCase()}
+          </span>
         </div>
-        
+
         <div className="product-detail-content">
-          {/* Cột trái: Ảnh sản phẩm */}
           <div className="product-detail-image-wrapper">
-            <img 
-              src={toy.image} 
-              alt={toy.name} 
-              className="product-detail-image" 
+            <img
+              src={toy.image}
+              alt={toy.name}
+              className="product-detail-image"
             />
-            {toy.quantity <= 0 && <div className="out-of-stock-overlay-detail">HẾT HÀNG</div>}
+            {toy.quantity <= 0 && (
+              <div className="out-of-stock-overlay-detail">HẾT HÀNG</div>
+            )}
           </div>
-          
-          {/* Cột phải: Thông tin sản phẩm */}
+
           <div className="product-detail-info">
             <h1 className="product-detail-name">{toy.name}</h1>
-            
+
             <div className="product-detail-price">
               {toy.price.toLocaleString("vi-VN")} <span>₫</span>
             </div>
-            
+
             <div className="product-detail-desc">
-              <p>Danh mục: <strong>{toy.category}</strong></p>
-              {/* Bạn có thể thêm mô tả chi tiết của sản phẩm ở đây nếu có trong DB */}
+              <p>
+                Danh mục: <strong>{toy.category}</strong>
+              </p>
             </div>
-            
+
             <div className="product-detail-stock">
-              {toy.quantity > 0 ? `Còn ${toy.quantity} trong kho` : "Đã hết hàng"}
+              {toy.quantity > 0
+                ? `Còn ${toy.quantity} trong kho`
+                : "Đã hết hàng"}
             </div>
-            
-            {/* Khu vực chọn số lượng và Nút Mua */}
+
             <div className="action-row">
               <div className="quantity-selector">
-                <button className="qty-btn" onClick={handleDecrease} disabled={toy.quantity <= 0}>-</button>
-                <input 
-                  type="text" 
-                  className="qty-input" 
-                  value={toy.quantity > 0 ? quantityToAdd : 0} 
-                  readOnly 
+                <button
+                  className="qty-btn"
+                  onClick={handleDecrease}
+                  disabled={toy.quantity <= 0}
+                >
+                  -
+                </button>
+                <input
+                  type="text"
+                  className="qty-input"
+                  value={toy.quantity > 0 ? quantityToAdd : 0}
+                  readOnly
                 />
-                <button className="qty-btn" onClick={handleIncrease} disabled={toy.quantity <= 0}>+</button>
+                <button
+                  className="qty-btn"
+                  onClick={handleIncrease}
+                  disabled={toy.quantity <= 0}
+                >
+                  +
+                </button>
               </div>
-              
-              <button 
-                className="add-to-cart-btn-red" 
+
+              <button
+                className="add-to-cart-btn-red"
                 onClick={handleAddToCart}
                 disabled={toy.quantity <= 0}
               >

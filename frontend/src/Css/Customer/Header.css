@@ -1,5 +1,4 @@
 .global-header {
-  /* 1. ĐỔI BACKGROUND THÀNH ẢNH */
   background-image: url("https://c4.wallpaperflare.com/wallpaper/324/534/514/yu-gi-oh-dark-magician-girl-wallpaper-preview.jpg");
   background-size: cover;
   background-position: 500px 45%;
@@ -35,7 +34,6 @@
   display: block;
 }
 
-/* --- HIỆU ỨNG BONG BÓNG CHO CÁC NÚT --- */
 .header-category-btn, 
 .user-dropdown-container, 
 .login-btn-red {
@@ -62,7 +60,6 @@
   transform: translateY(-2px);
 }
 
-/* --- HIỆU ỨNG BONG BÓNG CHO SEARCH BAR --- */
 .header-search {
   flex: 1;
   display: flex;
@@ -104,7 +101,6 @@
   color: #03aC13; 
 }
 
-/* --- HIỆU ỨNG BONG BÓNG CHO THÔNG TIN LIÊN HỆ --- */
 .header-info-group {
   display: flex;
   gap: 20px;
@@ -134,7 +130,6 @@
 }
 .info-item a.info-desc:hover { text-decoration: underline; }
 
-/* --- HIỆU ỨNG BONG BÓNG CHO ACTIONS (TRA CỨU, GIỎ HÀNG) --- */
 .header-actions {
   display: flex;
   gap: 15px;
@@ -180,13 +175,12 @@
   border-radius: 50px;
 }
 
-/* Dropdown cho User */
+
 .user-dropdown-container {
   position: relative;
 }
 
 .user-dropdown-menu {
-  /* Khối này sẽ được React quyết định ẩn/hiện nên không cần display: none nữa */
   position: absolute;
   top: 100%;
   right: 0;
@@ -196,7 +190,7 @@
   overflow: hidden;
   min-width: 150px;
   margin-top: 10px; 
-  z-index: 1001; /* Đảm bảo menu đè lên các thành phần khác */
+  z-index: 1001; 
 }
 
 .user-dropdown-menu button {
@@ -213,7 +207,7 @@
 
 .user-dropdown-menu button:hover { 
   background-color: #f1f1f1; 
-  color: #e30019; /* Đổi màu đỏ khi hover vào nút đăng xuất cho nổi bật */
+  color: #e30019;
 }
 
 .user-name-text { font-weight: 500; }
